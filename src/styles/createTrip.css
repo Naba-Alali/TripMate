@@ -29,7 +29,7 @@
 .trip-form {
     display: flex;
     flex-direction: row;
-    gap: 16px;                        /* space between the 3 fields */
+    gap: 12px;                        /* space between the 4 fields */
     align-items: flex-end;            /* line them up at the bottom */
     background-color: var(--white);
     border: 1px solid var(--divider);
@@ -52,6 +52,21 @@
 /* City and Days fields are smaller */
 .trip-form__field:not(:first-child) {
     flex: 1;
+}
+
+.trip-form__add-btn {
+    padding: 0 20px;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    height: 38px;
+    white-space: nowrap;
+    transition: background 0.2s;
+    margin-bottom: 2px;
 }
 
 .trip-form__label {
@@ -350,7 +365,60 @@
     color: var(--success);
     line-height: 1.5;
 }
+.trip-creation-header {
+    width: 100%;
+    margin-bottom: 30px;
+}
 
+.main-create-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.trip-selector-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.trip-tab {
+    padding: 12px;
+    border: 1px solid var(--divider);
+    background: white;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.trip-tab.active {
+    border-left: 5px solid var(--primary-blue);
+    background: var(--off-white);
+    font-weight: 600;
+}
+
+.sidebar-section-title {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.no-trip-msg {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 0;
+    border: 2px dashed var(--divider);
+    border-radius: 12px;
+}
 
 /* ─── Responsive ────────────────────────────────── */
 
@@ -366,8 +434,21 @@
     }
 
     .trip-form {
-        flex-direction: column;     /* stack on tablet */
+        display: flex;
+        flex-direction: row;
         gap: 16px;
+        align-items: flex-end;
+        background-color: var(--white);
+        border: 1px solid var(--divider);
+        border-radius: 12px;
+        padding: 20px 24px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .trip-form__add-btn {
+        height: 45px;
+        margin-top: 10px;
     }
 
     .trip-form__field:first-child,
