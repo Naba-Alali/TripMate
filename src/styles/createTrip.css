@@ -78,6 +78,280 @@
     border-color: var(--primary-blue);
 }
 
+/* ----------- DayTabs ------------ */
+
+.day-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.day-tabs__btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1.5px solid var(--divider);
+    background-color: var(--white);
+    color: var(--text-dark);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.day-tabs__btn:hover {
+    border-color: var(--dark-blue);
+    color: var(--dark-blue);
+}
+
+/* active day — filled blue */
+.day-tabs__btn--active {
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border-color: var(--dark-border);
+}
+
+
+/* ----------- ItineraryPanel ------------ */
+
+.itinerary-panel {
+    background-color: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.itinerary-panel__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.itinerary-panel__day {
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.itinerary-panel__day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background-color: var(--off-white);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.itinerary-panel__count {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.itinerary-panel__empty {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.itinerary-panel__list {
+    list-style: none;
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itinerary-panel__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.itinerary-panel__remove {
+    background: none;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.itinerary-panel__remove:hover {
+    background-color: #fdecea;
+}
+
+.create-trip-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;  /* sidebar stays at top */
+}
+
+.create-trip-main {
+    flex: 2;                  /* left side takes more space */
+}
+
+.create-trip-sidebar {
+    flex: 1;                  /* right side is narrower */
+    position: sticky;
+    top: 20px;                /* sidebar stays visible when scrolling */
+}
+
+
+/* ----------- MemberPanel ------------ */
+
+
+.member-panel {
+    background-color: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.member-panel__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.member-panel__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.member-panel__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Circle avatar with first letter */
+.member-panel__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--blue-tint);
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.member-panel__info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.member-panel__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.member-panel__role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.member-panel__crown {
+    font-size: 16px;
+}
+
+.member-panel__remove {
+    background: none;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.member-panel__remove:hover {
+    background-color: #fdecea;
+}
+
+.member-panel__divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 12px 0;
+}
+
+/* Add member inputs */
+.member-panel__add {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.member-panel__add-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.member-panel__input {
+    padding: 8px 12px;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    outline: none;
+}
+
+.member-panel__input:focus {
+    border-color: var(--primary-blue);
+}
+
+.member-panel__add-btn {
+    padding: 9px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.member-panel__add-btn:hover {
+    background-color: var(--blue-hover);
+}
+
+.member-panel__error {
+    font-size: 12px;
+    color: var(--error);
+}
+
+.member-panel__success {
+    font-size: 12px;
+    color: var(--success);
+    line-height: 1.5;
+}
+
+
 /* ─── Responsive ────────────────────────────────── */
 
 /* Tablet */
@@ -114,5 +388,16 @@
 
     .create-trip-subtitle {
         font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .create-trip-layout {
+        flex-direction: column;
+    }
+
+    .create-trip-sidebar {
+        position: static;
+        width: 100%;
     }
 }
