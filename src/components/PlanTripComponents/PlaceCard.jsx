@@ -1,6 +1,6 @@
 import "../../styles/PlaceCard.css";
 
-function PlaceCard({ place }) {
+function PlaceCard({ place, onAdd}) {
   return (
     <div className="place-card">
 
@@ -11,6 +11,19 @@ function PlaceCard({ place }) {
         {/* Category badge on top of the image */}
         <span className="card-badge">{place.category}</span>
       </div>
+
+        {/* Only show the + button if onAdd function is passed */}
+        {onAdd && (
+            <button
+                className="card-add-btn"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onAdd(place);
+                }}
+            >
+                +
+            </button>
+        )}
 
       {/* ── Info section ── */}
       <div className="card-info">

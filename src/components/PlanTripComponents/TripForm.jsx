@@ -1,6 +1,6 @@
 import React from 'react';
 // This component doesn't store state itself — it just displays and reports changes
-function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDays, setNumDays }) {
+function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDays, setNumDays, onCreate }) {
 
     // List of Saudi cities the organizer can choose from
     const cities = ["Al Hassa", "Riyadh", "Jeddah", "Abha", "AlUla"];
@@ -17,7 +17,7 @@ function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDay
                 <input
                     className="trip-form__input"
                     type="text"
-                    placeholder="e.g. Al Hassa Adventure"
+                    placeholder="e.g. Al-Hassa vacation"
                     value={tripName}
                     onChange={(e) => setTripName(e.target.value)}  // tells parent the new value
                 />
@@ -51,6 +51,11 @@ function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDay
                     ))}
                 </select>
             </div>
+
+            {/* Create Button */}
+            <button className="trip-form__add-btn" onClick={onCreate}>
+                + Create Trip
+            </button>
 
         </div>
     );
