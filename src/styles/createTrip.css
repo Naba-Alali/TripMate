@@ -1,0 +1,116 @@
+/* ----------- Create Trip Page ------------ */
+
+.create-trip-page {
+    min-height: 100vh;
+    background-color: var(--off-white);
+    padding: 40px 60px;
+}
+
+.create-trip-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.create-trip-title--highlight {
+    color: var(--primary-blue);
+}
+
+.create-trip-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+
+/* ----------- TripForm ------------ */
+
+.trip-form {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;                        /* space between the 3 fields */
+    align-items: flex-end;            /* line them up at the bottom */
+    background-color: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+}
+
+.trip-form__field {
+    display: flex;
+    flex-direction: column;           /* label on top, input below */
+    gap: 6px;
+    flex: 1;                          /* each field takes equal width */
+}
+
+.trip-form__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.trip-form__input,
+.trip-form__select {
+    padding: 10px 14px;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    outline: none;
+    cursor: pointer;
+}
+
+/* highlight border when focused using primary blue */
+.trip-form__input:focus,
+.trip-form__select:focus {
+    border-color: var(--primary-blue);
+}
+
+
+
+/* ─── Responsive ────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 768px) {
+
+    .create-trip-page {
+        padding: 24px 24px; /* less side padding on tablet */
+    }
+
+    .create-trip-title {
+        font-size: 32px;    /* smaller title */
+    }
+
+    .trip-form {
+        flex-direction: column; /* stack the 3 fields vertically */
+        gap: 16px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+
+    .create-trip-page {
+        padding: 16px;      /* even less padding on mobile */
+    }
+
+    .create-trip-title {
+        font-size: 26px;
+    }
+
+    .create-trip-subtitle {
+        font-size: 14px;
+    }
+
+    .trip-form {
+        padding: 16px;
+    }
+
+    .trip-form__input,
+    .trip-form__select {
+        font-size: 14px;
+    }
+}
