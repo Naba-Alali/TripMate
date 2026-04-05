@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react"; // add useEffect
+import { useState, useEffect } from "react";
 import TripForm from "../components/PlanTripComponents/TripForm";
 import CategoryFilter from "../components/PlanTripComponents/CategoryFilter";
 import DayTabs from "../components/PlanTripComponents/DayTabs";
 import ItineraryPanel from "../components/PlanTripComponents/ItineraryPanel";
+import MemberPanel from "../components/PlanTripComponents/MemberPanel";
 import "../styles/createTrip.css";
 
 function CreateTrip() {
@@ -13,17 +14,40 @@ function CreateTrip() {
     const [activeDay, setActiveDay] = useState(1);
     const [itinerary, setItinerary] = useState({ 1: [] });
 
-    // When numDays changes, rebuild the itinerary object with the correct number of days
+    // Members state — organizer is always first
+    const [members, setMembers] = useState([
+        { id: 1, name: "You", email: "you@email.com", role: "Organizer" }
+    ]);
+
+    // Add member function
+    const handleAddMember = (newMember) => {
+        setMembers((prev) => [
+            ...prev,
+            { ...newMember, id: Date.now(), role: "Member" }
+        ]);
+    };
+
+    // Remove member function
+    const handleRemoveMember = (memberId) => {
+        setMembers((prev) => prev.filter((m) => m.id !== memberId));
+    };
+
+    // Update itinerary structure when numDays changes
     useEffect(() => {
-        const newItinerary = {};
-        for (let i = 1; i <= numDays; i++) {
-            // keep existing places if the day already exists, otherwise empty array
-            newItinerary[i] = itinerary[i] || [];
+        setItinerary((prevItinerary) => {
+            const newItinerary = {};
+            for (let i = 1; i <= numDays; i++) {
+                // keep existing places if the day already exists, otherwise empty array
+                newItinerary[i] = prevItinerary[i] || [];
+            }
+            return newItinerary;
+        });
+
+        // Reset active day to 1 if the current active day no longer exists
+        if (activeDay > numDays) {
+            setActiveDay(1);
         }
-        setItinerary(newItinerary);
-        // also reset active day to 1 when days change
-        setActiveDay(1);
-    }, [numDays]); // runs every time numDays changes
+    }, [numDays]);
 
     const handleRemovePlace = (day, placeId) => {
         setItinerary((prev) => ({
@@ -51,24 +75,38 @@ function CreateTrip() {
             />
 
             <div className="create-trip-layout">
-
-                {/* LEFT SIDE */}
+                {/* LEFT SIDE: Exploration & Selection */}
                 <div className="create-trip-main">
-                    {/* CategoryFilter and DayTabs only here — NOT outside the layout */}
-                    <CategoryFilter selected={activeCategory} onSelect={setActiveCategory} />
-                    <DayTabs numDays={numDays} activeDay={activeDay} setActiveDay={setActiveDay} />
-                    <p style={{ color: "gray" }}>PlaceCards go here</p>
+                    <CategoryFilter
+                        selected={activeCategory}
+                        onSelect={setActiveCategory}
+                    />
+                    <DayTabs
+                        numDays={numDays}
+                        activeDay={activeDay}
+                        setActiveDay={setActiveDay}
+                    />
+                    <div className="place-cards-container">
+                        <p style={{ color: "gray", marginTop: "20px" }}>
+                            PlaceCards for Day {activeDay} ({activeCategory}) go here
+                        </p>
+                    </div>
                 </div>
 
-                {/* RIGHT SIDE */}
+                {/* RIGHT SIDE: Summary & Collaboration */}
                 <div className="create-trip-sidebar">
                     <ItineraryPanel
                         itinerary={itinerary}
                         numDays={numDays}
                         onRemove={handleRemovePlace}
                     />
+                    <MemberPanel
+                        members={members}
+                        onAdd={handleAddMember}
+                        onRemove={handleRemoveMember}
+                        tripName={tripName}
+                    />
                 </div>
-
             </div>
         </div>
     );

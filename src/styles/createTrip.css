@@ -207,6 +207,151 @@
     top: 20px;                /* sidebar stays visible when scrolling */
 }
 
+
+/* ----------- MemberPanel ------------ */
+
+
+.member-panel {
+    background-color: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 16px;
+}
+
+.member-panel__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.member-panel__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.member-panel__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Circle avatar with first letter */
+.member-panel__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--blue-tint);
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.member-panel__info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.member-panel__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.member-panel__role {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.member-panel__crown {
+    font-size: 16px;
+}
+
+.member-panel__remove {
+    background: none;
+    border: none;
+    color: var(--error);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.member-panel__remove:hover {
+    background-color: #fdecea;
+}
+
+.member-panel__divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 12px 0;
+}
+
+/* Add member inputs */
+.member-panel__add {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.member-panel__add-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.member-panel__input {
+    padding: 8px 12px;
+    border: 1px solid var(--divider);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    outline: none;
+}
+
+.member-panel__input:focus {
+    border-color: var(--primary-blue);
+}
+
+.member-panel__add-btn {
+    padding: 9px;
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.member-panel__add-btn:hover {
+    background-color: var(--blue-hover);
+}
+
+.member-panel__error {
+    font-size: 12px;
+    color: var(--error);
+}
+
+.member-panel__success {
+    font-size: 12px;
+    color: var(--success);
+    line-height: 1.5;
+}
+
+
 /* ─── Responsive ────────────────────────────────── */
 
 /* Tablet */
