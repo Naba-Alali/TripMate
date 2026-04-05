@@ -19,12 +19,12 @@
 
 .city-tabs__btn:hover {
     border-color: var(--blue-hover);
-    color: var(--dark-blue);
+    color: var(--primary-blue);
 }
 
 /* Active state matching the purple in your screenshot */
 .city-tabs__btn--active {
-    background-color: var(--dark-blue);
+    background-color: var(--primary-blue);
     color: var(--white);
-    border-color: var(--dark-border);
+    border-color: var(--primary-blue);
 }
