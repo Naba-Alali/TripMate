@@ -114,15 +114,15 @@
 }
 
 .day-tabs__btn:hover {
-    border-color: var(--dark-blue);
-    color: var(--dark-blue);
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
 }
 
 /* active day — filled blue */
 .day-tabs__btn--active {
-    background-color: var(--dark-blue);
+    background-color: var(--primary-blue);
     color: var(--white);
-    border-color: var(--dark-border);
+    border-color: var(--primary-blue);
 }
 
 
@@ -213,7 +213,7 @@
 }
 
 .create-trip-main {
-    flex: 2;                  /* left side takes more space */
+    flex: 2; /* left side takes more space */
 }
 
 .create-trip-sidebar {

@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: nowrap;    /* Prevents buttons from jumping to a second line */
     gap: 10px;
-    margin-bottom: 0;     /* CRITICAL: Set to 0 so it aligns with the search bar */
+    margin-bottom: 10px;     /* CRITICAL: Set to 0 so it aligns with the search bar */
     flex-shrink: 1;
 }
 
@@ -23,11 +23,11 @@
 
 .category-filter__btn:hover {
     border-color: var(--blue-hover);
-    color: var(--dark-blue);
+    color: var(--primary-blue);
 }
 
 .category-filter__btn--active {
-    background-color: var(--dark-blue);
+    background-color: var(--primary-blue);
     color: var(--white);
-    border-color: var(--dark-border);
+    border-color: var(--primary-blue);
 }
