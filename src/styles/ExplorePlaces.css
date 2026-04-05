@@ -23,7 +23,7 @@
     align-items: center;
     gap: 16px;
     margin-bottom: 32px;
-    flex-wrap: wrap;             /* wraps on small screens */
+    width: 100%;             /* wraps on small screens */
 }
 
 /* ── Search box ── */
@@ -33,10 +33,11 @@
     gap: 8px;
     background-color: var(--white);
     border: 1.5px solid var(--divider);
-    border-radius: 999px;        /* pill shape */
+    border-radius: 999px; 
     padding: 8px 16px;
-    flex: 1;                     /* takes remaining space */
-    min-width: 200px;
+    /* This allows the search bar to grow but stays around 350px if possible */
+    flex: 0 1 350px; 
+    min-width: 200px;    /* Prevents it from disappearing on small screens */
 }
 
 .explore-search__icon {
@@ -98,4 +99,14 @@
     font-size: 32px;
     color: var(--text-muted);
     cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .explore-controls {
+        flex-wrap: wrap; /* Allows categories to wrap UNDER the search bar on small screens */
+    }
+    
+    .explore-search {
+        flex: 1 1 100%; /* Search bar takes full width on mobile/tablet */
+    }
 }

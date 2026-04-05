@@ -1,8 +1,9 @@
 .category-filter {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;    /* Prevents buttons from jumping to a second line */
     gap: 10px;
-    margin-bottom: 24px;
+    margin-bottom: 0;     /* CRITICAL: Set to 0 so it aligns with the search bar */
+    flex-shrink: 1;
 }
 
 .category-filter__btn {
@@ -12,11 +13,12 @@
     padding: 8px 16px;
     border-radius: 999px;
     border: 1px solid var(--divider);
-    background-color: var(--white);
+    background-color: var(--light-gray);
     color: var(--text-dark);
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .category-filter__btn:hover {

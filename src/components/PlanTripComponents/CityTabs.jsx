@@ -2,9 +2,12 @@ import React from "react";
 import '../../styles/CityTabs.css';
 
 const cities = [
-  { id: "rome", label: "Riyadh" },
-  { id: "tokyo", label: "Tokyo, Japan" },
-  { id: "paris", label: "Paris, France" },
+  { id: "All", label: "All" },
+  { id: "Riyadh", label: "Riyadh" },
+  { id: "Jeddah", label: "Jeddah" },
+  { id: "Abha", label: "Abha" },
+  { id: "AlUla", label: "AlUla" },
+  { id: "AlHassa", label: "AlHassa" },
 ];
 
 function CityTabs({ selected, onSelect }) {

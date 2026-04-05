@@ -2,49 +2,44 @@ import { useState } from "react";
 import CategoryFilter from "../components/PlanTripComponents/CategoryFilter";
 import PlaceCard from "../components/PlanTripComponents/PlaceCard";
 import places from "../components/PlanTripComponents/data/places";
-import "../styles/ExplorePlaces.css";
 import CityTabs from '../components/PlanTripComponents/CityTabs';
+import "../styles/ExplorePlaces.css";
 
 function ExplorePlaces() {
     const [activeCategory, setActiveCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
-    // Default to 'rome' as per your CityTabs IDs
-    const [selectedCity, setSelectedCity] = useState("rome");
+    const [selectedCity, setSelectedCity] = useState("All"); 
 
-    // Filter logic: Category + Search + City
-    const filteredPlaces = places
-        // 1. Filter by City
-        .filter((place) => 
-            place.id === 1 ? selectedCity === "rome" : // Specific logic if IDs are tied to cities
-            place.city?.toLowerCase().includes(selectedCity) // General logic if data has city names
-        )
-        // 2. Filter by Category
-        .filter((place) =>
-            activeCategory === "all" ? true : place.category === activeCategory
-        )
-        // 3. Filter by Search Query
-        .filter((place) =>
-            place.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+    // Combined Filter Logic
+    const filteredPlaces = places.filter((place) => {
+    // 1. City Filter: If selectedCity is "all", it returns true for EVERY place.
+    // If it's NOT "all", it then looks for a match in the data.
+    const matchesCity = selectedCity === "All" || place.city === selectedCity;
+
+    // 2. Category Filter
+    const matchesCategory = activeCategory === "all" || place.category === activeCategory;
+
+    // 3. Search Filter
+    const matchesSearch = place.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesCity && matchesCategory && matchesSearch;
+});
 
     return (
         <div className="explore-page">
 
-            {/* ── Page Title ── */}
             <h1 className="explore-title">
                 <span className="explore-title--highlight">Explore</span> New Places
             </h1>
 
-            {/* ── City Tabs (Placed above search as per design) ── */}
+            {/* City Selection Row */}
             <CityTabs 
                 selected={selectedCity} 
                 onSelect={setSelectedCity} 
             />
 
-            {/* ── Search + Category Row ── */}
+            {/* Search + Category Controls */}
             <div className="explore-controls">
-                
-                {/* Search input */}
                 <div className="explore-search">
                     <span className="explore-search__icon">🔍</span>
                     <input
@@ -56,14 +51,13 @@ function ExplorePlaces() {
                     />
                 </div>
 
-                {/* Category filter pills */}
                 <CategoryFilter
                     selected={activeCategory}
                     onSelect={setActiveCategory}
                 />
             </div>
 
-            {/* ── Places Grid or Empty State ── */}
+            {/* Results Grid */}
             {filteredPlaces.length > 0 ? (
                 <div className="places-grid">
                     {filteredPlaces.map((place) => (
@@ -72,7 +66,7 @@ function ExplorePlaces() {
                 </div>
             ) : (
                 <div className="explore-empty">
-                    <p className="explore-empty__text">No places found in this city..</p>
+                    <p className="explore-empty__text">No results found for this selection.</p>
                     <span className="explore-empty__icon">📍</span>
                 </div>
             )}

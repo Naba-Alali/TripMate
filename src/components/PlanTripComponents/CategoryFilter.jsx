@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/CategoryFilter.css';
 
 const categories = [
-  { id: "all",       label: "All",        icon: "🔮" },
+  { id: "all",       label: "All",        icon: "🌍" },
   { id: "landmark",  label: "Landmarks",  icon: "🏛️" },
   { id: "food",      label: "Local Food", icon: "🍽️" },
   { id: "nature",    label: "Nature",     icon: "🌿" },
