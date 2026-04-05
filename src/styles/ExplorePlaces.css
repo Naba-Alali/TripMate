@@ -1,43 +1,101 @@
-/* Row that holds all the filter buttons */
-.category-filter {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
+/* ── Page wrapper ── */
+.explore-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
 }
 
-/* Default (not selected) button */
-.filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;                              /* space between icon and label */
-
-  padding: 6px 14px;
-  border-radius: 999px;                  /* pill shape */
-  border: 1.5px solid var(--divider);
-
-  background-color: var(--white);
-  color: var(--text-muted);
-  font-size: 13px;
-  font-family: 'Inter', sans-serif;
-
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* ── Title ── */
+.explore-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 32px;
 }
 
-
-/* Selected/active button — filled blue */
-.filter-btn.active {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  border-color: var(--primary-blue);
+.explore-title--highlight {
+    color: var(--primary-blue);  /* blue "Explore" word */
 }
 
+/* ── Search + Filter row ── */
+.explore-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;             /* wraps on small screens */
+}
 
-/* Hovering over a non-active button */
-.filter-btn:hover:not(.active) {
-  background-color: var(--blue-tint);
-  border-color: var(--blue-light);
-  color: var(--primary-blue);
+/* ── Search box ── */
+.explore-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--white);
+    border: 1.5px solid var(--divider);
+    border-radius: 999px;        /* pill shape */
+    padding: 8px 16px;
+    flex: 1;                     /* takes remaining space */
+    min-width: 200px;
+}
+
+.explore-search__icon {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.explore-search__input {
+    border: none;
+    outline: none;               /* removes default focus border */
+    background: transparent;
+    font-size: 14px;
+    color: var(--text-dark);
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.explore-search__input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ── Places grid ── */
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);   /* 3 cards per row */
+    gap: 24px;
+}
+
+/* 2 columns on tablets */
+@media (max-width: 900px) {
+    .places-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 1 column on mobile */
+@media (max-width: 480px) {
+    .places-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Empty state ── */
+.explore-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 80px 0;
+}
+
+.explore-empty__text {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+.explore-empty__icon {
+    font-size: 32px;
+    color: var(--text-muted);
+    cursor: pointer;
 }

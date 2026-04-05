@@ -1,4 +1,5 @@
-import jabalAlQara from '../../../assets/jabal-al-qara.jpg';
+import jabalAlQara from '../../../assets/imgs/Jabal-Alqara.jpg';
+
 const places = [
     {
         id: 1,
