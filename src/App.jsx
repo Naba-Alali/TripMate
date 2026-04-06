@@ -2,7 +2,7 @@ import CreateTrip from "./pages/CreateTrip";
 import ExplorePlaces from "./pages/ExplorePlaces";
 
 function App() {
-    return <ExplorePlaces />;
+    return <CreateTrip />;
 }
 
 export default App;
