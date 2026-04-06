@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TripForm from "../components/PlanTripComponents/TripForm";
 import CategoryFilter from "../components/PlanTripComponents/CategoryFilter";
 import DayTabs from "../components/PlanTripComponents/DayTabs";
@@ -17,14 +17,23 @@ function CreateTrip() {
     // Collection of all trips
     const [trips, setTrips] = useState([]);
     const [activeTripId, setActiveTripId] = useState(null);
+    // Temporary state for form validation errors
+    const [formError, setFormError] = useState("");
+    const [placeError, setPlaceError] = useState("");
 
     // Get the currently selected trip object
     const activeTrip = trips.find(t => t.id === activeTripId);
 
     // Create a new Trip entry
     const handleCreateNewTrip = () => {
-        if (!tripName.trim() || !selectedCity) {
-            alert("Please enter a Trip Name and select a Destination first");
+        if (!tripName.trim()) {
+            setFormError("Please enter a trip name.");
+            setTimeout(() => setFormError(""), 3000);
+            return;
+        }
+        if (!selectedCity) {
+            setFormError("Please select a destination.");
+            setTimeout(() => setFormError(""), 3000);
             return;
         }
 
@@ -46,6 +55,8 @@ function CreateTrip() {
         setActiveTripId(newTrip.id); // Automatically switch to the new trip panel
 
         // Reset inputs for the next trip
+        setTrips([...trips, newTrip]);
+        setActiveTripId(newTrip.id);
         setTripName("");
         setSelectedCity("");
         setNumDays(1);
@@ -53,12 +64,15 @@ function CreateTrip() {
 
     // Add place to the ACTIVE trip
     const handleAddPlace = (place) => {
+        // if no trip selected, show error and stop
         if (!activeTrip) {
-            alert("Please select or create a trip from the sidebar first!");
+            setPlaceError("Please select or create a trip first!");
+            setTimeout(() => setPlaceError(""), 3000);
             return;
         }
+    setPlaceError("");
 
-        setTrips(prevTrips => prevTrips.map(trip => {
+    setTrips(prevTrips => prevTrips.map(trip => {
             if (trip.id === activeTripId) {
                 const currentDayPlaces = trip.itinerary[activeDay] || [];
                 if (currentDayPlaces.find(p => p.id === place.id)) return trip;
@@ -72,8 +86,8 @@ function CreateTrip() {
                 };
             }
             return trip;
-        }));
-    };
+        }))
+};
 
     const handleRemovePlace = (day, placeId) => {
         setTrips(prevTrips => prevTrips.map(trip => {
@@ -198,6 +212,7 @@ function CreateTrip() {
                     numDays={numDays}
                     setNumDays={setNumDays}
                     onCreate={handleCreateNewTrip}
+                    formError={formError}
                 />
             </div>
 
@@ -214,11 +229,16 @@ function CreateTrip() {
                         />
                     )}
 
-                    <div className="place-cards-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+                    {placeError && (
+                        <p className="place-error">{placeError}</p>
+                    )}
+
+                    <div className="place-cards-container">
                         {filteredPlaces.map(place => (
                             <PlaceCard key={place.id} place={place} onAdd={handleAddPlace} />
                         ))}
                     </div>
+
                 </div>
 
                 <div className="create-trip-sidebar">
