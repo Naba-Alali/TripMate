@@ -6,7 +6,7 @@ function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDay
     const cities = ["Al Hassa", "Riyadh", "Jeddah", "Abha", "AlUla"];
 
     // Day options: 1 to 7
-    const dayOptions = [1, 2, 3, 4, 5, 6, 7];
+    const dayOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12];
 
     return (
         <div className="trip-form">

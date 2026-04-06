@@ -125,6 +125,66 @@ function CreateTrip() {
         return cityMatch && categoryMatch;
     });
 
+    {/* Delete Trip function */}
+    const handleDeleteTrip = (tripId) => {
+        setTrips(prevTrips => prevTrips.filter(t => t.id !== tripId));
+        // If we deleted the active trip, clear the selection
+        if (activeTripId === tripId) {
+            setActiveTripId(null);
+        }
+    };
+
+    // Add a new day to the ACTIVE trip
+    const handleAddDay = () => {
+        if (!activeTrip || activeTrip.days >= 12) return;
+
+        setTrips(prevTrips => prevTrips.map(trip => {
+            if (trip.id === activeTripId) {
+                return {
+                    ...trip,
+                    days: trip.days + 1,
+                    itinerary: {
+                        ...trip.itinerary,
+                        [trip.days + 1]: []   // add empty array for the new day
+                    }
+                };
+            }
+            return trip;
+        }));
+    };
+
+// Remove the last day from the ACTIVE trip
+    const handleRemoveDay = (dayToRemove) => {
+        if (!activeTrip || activeTrip.days <= 1) return;
+
+        // if user is viewing the day being removed, move them to day 1
+        if (activeDay === dayToRemove) setActiveDay(1);
+
+        setTrips(prevTrips => prevTrips.map(trip => {
+            if (trip.id === activeTripId) {
+
+                const updatedItinerary = {};
+
+                // Rebuild itinerary — shift days down after the removed one
+                let newDayNumber = 1;
+                for (let i = 1; i <= trip.days; i++) {
+                    if (i === dayToRemove) continue; // skip the deleted day
+                    updatedItinerary[newDayNumber] = trip.itinerary[i] || [];
+                    newDayNumber++;
+                }
+
+                return {
+                    ...trip,
+                    days: trip.days - 1,
+                    itinerary: updatedItinerary
+                };
+            }
+            return trip;
+        }));
+    };
+
+
+
     return (
         <div className="create-trip-page">
             <h1 className="create-trip-title">Plan Your <span className="create-trip-title--highlight">Trip</span></h1>
@@ -149,6 +209,8 @@ function CreateTrip() {
                             numDays={activeTrip.days}
                             activeDay={activeDay}
                             setActiveDay={setActiveDay}
+                            onAddDay={handleAddDay}
+                            onRemoveDay={handleRemoveDay}
                         />
                     )}
 
@@ -163,13 +225,24 @@ function CreateTrip() {
                     <h3 className="sidebar-section-title">Your Trips</h3>
                     <div className="trip-selector-list">
                         {trips.map(t => (
-                            <button
-                                key={t.id}
-                                className={`trip-tab ${activeTripId === t.id ? 'active' : ''}`}
-                                onClick={() => setActiveTripId(t.id)}
-                            >
-                                {t.name} ({t.city})
-                            </button>
+                            <div key={t.id} className="trip-tab-row">
+                                {/* Trip name button */}
+                                <button
+                                    className={`trip-tab ${activeTripId === t.id ? 'active' : ''}`}
+                                    onClick={() => setActiveTripId(t.id)}
+                                >
+                                    {t.name} ({t.city})
+                                </button>
+
+                                {/* Delete icon beside the trip */}
+                                <button
+                                    className="trip-tab__delete"
+                                    onClick={() => handleDeleteTrip(t.id)}
+                                    title="Delete trip"
+                                >
+                                    🗑️
+                                </button>
+                            </div>
                         ))}
                     </div>
 
