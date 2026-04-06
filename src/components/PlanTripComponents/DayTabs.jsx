@@ -9,13 +9,6 @@ function DayTabs({ numDays, activeDay, setActiveDay, onAddDay, onRemoveDay }) {
                 {days.map((day) => (
                     <div key={day} className="day-tabs__item">
 
-                        {/* Day button */}
-                        <button
-                            className={`day-tabs__btn ${activeDay === day ? "day-tabs__btn--active" : ""}`}
-                            onClick={() => setActiveDay(day)}
-                        >
-                            Day {day}
-                        </button>
 
                         {/* ✕ button on each tab — only show if more than 1 day */}
                         {numDays > 1 && (
@@ -27,6 +20,14 @@ function DayTabs({ numDays, activeDay, setActiveDay, onAddDay, onRemoveDay }) {
                                 ✕
                             </button>
                         )}
+
+                        {/* Day button */}
+                        <button
+                            className={`day-tabs__btn ${activeDay === day ? "day-tabs__btn--active" : ""}`}
+                            onClick={() => setActiveDay(day)}
+                        >
+                            Day {day}
+                        </button>
 
                     </div>
                 ))}
