@@ -420,6 +420,37 @@
     border-radius: 12px;
 }
 
+/* Row wrapping trip name + delete icon */
+.trip-tab-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Make trip button take all available space */
+.trip-tab-row .trip-tab {
+    flex: 1;
+}
+
+/* Delete icon button */
+.trip-tab__delete {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+    opacity: 0.5;
+}
+
+/* Show clearly on hover */
+.trip-tab__delete:hover {
+    background-color: #fdecea;
+    opacity: 1;
+}
+
 /* ─── Responsive ────────────────────────────────── */
 
 /* Tablet */

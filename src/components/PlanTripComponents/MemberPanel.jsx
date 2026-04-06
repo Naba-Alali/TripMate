@@ -39,7 +39,7 @@ function MemberPanel({ members, onAdd, onRemove, tripName }) {
         setNameInput("");
     };
 
-    // NEW: Function to handle removal and show the message
+    // Function to handle removal and show the message
     const handleRemoveClick = (member) => {
         onRemove(member.id); // Call the parent function to delete
         setSuccessMsg(`${member.name} has been deleted from ${tripName || "the"} trip.`);
