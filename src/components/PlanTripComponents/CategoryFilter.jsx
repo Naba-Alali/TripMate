@@ -7,6 +7,7 @@ const categories = [
   { id: "food",      label: "Local Food", icon: "🍽️" },
   { id: "nature",    label: "Nature",     icon: "🌿" },
   { id: "shopping",  label: "Shopping",   icon: "🛍️" },
+  { id: "entertainment", label: "Entertainment", icon: "🎭" },
 ];
 
 function CategoryFilter({ selected, onSelect }) {

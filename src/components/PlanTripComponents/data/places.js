@@ -14,6 +14,19 @@ import marayeh from '../../../assets/imgs/maraya.jpg';
 import harrat from '../../../assets/imgs/harrat.jpg';
 import someWhere from '../../../assets/imgs/somewhereResturant.jpg';
 import marayehSocial from '../../../assets/imgs/MarayaSocial.webp';
+import almaigliaah from '../../../assets/imgs/almaigliaah.webp';
+import northyard from '../../../assets/imgs/northyard.webp';
+import Chotto from '../../../assets/imgs/Chotto.jpg';
+import tokyoRes from '../../../assets/imgs/tokyoRes.jpg';
+import LesDeuxMagots from '../../../assets/imgs/LesDeuxMagots.jpg';
+import emsherif from '../../../assets/imgs/emsherif.jpg';
+import brunchcake from '../../../assets/imgs/brunchcake.webp';
+import AOK from '../../../assets/imgs/AOK.jpg';
+import AlfaisaliahMall from '../../../assets/imgs/AlfaisaliahMall.jpg';
+import Boulevardworld from '../../../assets/imgs/Boulevardworld.webp';
+import sixflags from '../../../assets/imgs/sixflags.webp';
+import Aquarabia from '../../../assets/imgs/Aquarabia.webp';
+
 
 const places = [
     {
@@ -160,6 +173,115 @@ const places = [
         rating: 4.8,
         image: marayehSocial
     },
+    {
+        id: 17,
+        city: "Riyadh",
+        name: "Al Maigliah",
+        description: "A major traditional wholesale hub in downtown Riyadh, famous for authentic thobes, perfumes, and textiles.",
+        category: "shopping", 
+        rating: 4.4,
+        image: almaigliaah
+    },
+    {
+        id: 18,
+        city: "Riyadh",
+        name: "North Yard",
+        description: "A chic destination in Al Malqa blending modern design with upscale cafes and lifestyle boutiques.",
+        category: "shopping", 
+        rating: 4.5,
+        image: northyard
+    },
+    {
+        id: 19,
+        city: "Riyadh",
+        name: "Chotto Matte",
+        description: "A vibrant Nikkei restaurant in KAFD combining the bold flavors of Peru with Japanese precision.",
+        category: "food", 
+        rating: 4.7,
+        image: Chotto
+    },
+    {
+        id: 20,
+        city: "Riyadh",
+        name: "Tokyo",
+        description: "One of the city's first Japanese restaurants, recently revamped with stunning modern interiors and fusion cuisine.",
+        category: "food", 
+        rating: 4.6,
+        image: tokyoRes
+    },
+    {
+        id: 21,
+        city: "Riyadh",
+        name: "Les Deux Magots",
+        description: "The Riyadh branch of the legendary Parisian cafe, offering a historic literary atmosphere and French classics.",
+        category: "food", 
+        rating: 4.5,
+        image: LesDeuxMagots
+    },
+    {
+        id: 22,
+        city: "Riyadh",
+        name: "Em Sherif",
+        description: "A luxurious Lebanese fine-dining experience known for its spectacular 'a la carte' menu and elegant setting.",
+        category: "food", 
+        rating: 4.8,
+        image: emsherif
+    },
+    {
+        id: 23,
+        city: "Riyadh",
+        name: "Brunch & Cake",
+        description: "Where art meets flavor; famous for its visually stunning, organic dishes and iconic interior design.",
+        category: "food", 
+        rating: 4.7,
+        image: brunchcake
+    },
+    {
+        id: 24,
+        city: "Riyadh",
+        name: "A.O.K Kitchen",
+        description: "Located in KAFD, this space focuses on 'conscious dining' with a refined Mediterranean-inspired menu.",
+        category: "food", 
+        rating: 4.6,
+        image: AOK
+    },
+    {
+        id: 25,
+        city: "Riyadh",
+        name: "Al Faisaliah Mall",
+        description: "An iconic shopping destination housed within one of Saudi Arabia’s most famous skyscrapers.",
+        category: "shopping", 
+        rating: 4.5,
+        image: AlfaisaliahMall
+    },
+    {
+        id: 26,
+        city: "Riyadh",
+        name: "Boulevard World",
+        description: "A massive entertainment zone featuring global cultures, boat rides, and international attractions.",
+        category: "entertainment", 
+        rating: 4.9,
+        image: Boulevardworld
+    },
+    {
+        id: 27,
+        city: "Riyadh",
+        name: "Six Flags",
+        description: "A world-class theme park featuring record-breaking roller coasters and high-energy entertainment.",
+        category: "entertainment", 
+        rating: 4.8,
+        image: sixflags
+    },
+    {
+        id: 28,
+        city: "Riyadh",
+        name: "Aquarabia",
+        description: "The region's largest water theme park, offering thrilling slides and aquatic adventures.",
+        category: "entertainment", 
+        rating: 4.7,
+        image: Aquarabia
+    },
+    
 ];
 
 export default places;

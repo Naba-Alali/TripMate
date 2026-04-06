@@ -1,20 +1,17 @@
 import "../../styles/PlaceCard.css";
 
-function PlaceCard({ place, onAdd }) {
+function PlaceCard({ place, onAdd, onClick }) {
     return (
-        <div className="place-card">
-            {/* ── Image section ── */}
+        <div className="place-card" onClick={onClick} style={{ cursor: 'pointer' }}>
             <div className="card-image-wrapper">
                 <img src={place.image} alt={place.name} className="card-image" />
-
-                {/* Category badge */}
                 <span className="card-badge">{place.category}</span>
 
                 {onAdd && (
                     <button
                         className="card-add-btn"
                         onClick={(e) => {
-                            e.stopPropagation();
+                            e.stopPropagation(); // Stops the modal from opening when clicking "+"
                             onAdd(place);
                         }}
                     >
@@ -23,7 +20,6 @@ function PlaceCard({ place, onAdd }) {
                 )}
             </div>
 
-            {/* ── Info section ── */}
             <div className="card-info">
                 <h3 className="card-name">{place.name}</h3>
                 <p className="card-description">{place.description}</p>
