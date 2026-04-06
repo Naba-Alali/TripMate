@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 16px;
+    padding: 8px 20px;
     border-radius: 999px;
     border: 1px solid var(--divider);
     background-color: var(--light-gray);
@@ -19,6 +19,7 @@
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    margin-bottom: 20px;
 }
 
 .category-filter__btn:hover {
