@@ -109,9 +109,20 @@ function CreateTrip() {
         }));
     };
 
-    const filteredPlaces = placesData.filter(p => {
-        const cityMatch = activeTrip ? p.city === activeTrip.city : p.city === selectedCity;
-        return cityMatch && (activeCategory === "all" || p.category === activeCategory);
+    const normalize = (str = "") => str.trim().toLowerCase().replace(/\s+/g, "");
+
+    const filteredPlaces = placesData.filter((p) => {
+        const currentCity = activeTrip ? activeTrip.city : selectedCity;
+
+        const cityMatch =
+            !currentCity ||
+            normalize(currentCity) === "all" ||
+            normalize(p.city) === normalize(currentCity);
+
+        const categoryMatch =
+            activeCategory === "all" || p.category === activeCategory;
+
+        return cityMatch && categoryMatch;
     });
 
     return (
