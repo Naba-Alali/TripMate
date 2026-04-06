@@ -8,6 +8,12 @@ import jeddahCorniche from '../../../assets/imgs/Jeddah-Corniche.jpg';
 import artStreet from '../../../assets/imgs/Art-Street.webp';
 import rijalAlmaa from '../../../assets/imgs/RijalAlmaa.jpg';
 import twentyFourRestaurant from '../../../assets/imgs/24.jpg';
+import elephantRock from '../../../assets/imgs/ElephantRock.jpg';
+import archi from '../../../assets/imgs/archi.webp';
+import marayeh from '../../../assets/imgs/maraya.jpg';
+import harrat from '../../../assets/imgs/harrat.jpg';
+import someWhere from '../../../assets/imgs/somewhereResturant.jpg';
+import marayehSocial from '../../../assets/imgs/MarayaSocial.webp';
 
 const places = [
     {
@@ -99,6 +105,60 @@ const places = [
         category:  "nature", 
         rating: 4.9,
         image: rijalAlmaa
+    },
+    {
+        id: 11,
+        city: "AlUla",
+        name: "Elephant Rock",
+        description: "A massive, natural sandstone formation that resembles an elephant rising from the desert sands.",
+        category:  "nature", 
+        rating: 4.9,
+        image: elephantRock
+    },
+    {
+        id: 12,
+        city: "AlUla",
+        name: "Archi",
+        description: "A stunning outdoor cafe nestled against AlUla's ancient mountains, offering specialty coffee in a serene, mud-brick setting.",
+        category:  "food", 
+        rating: 4.5,
+        image: archi
+    },
+    {
+        id: 13,
+        city: "AlUla",
+        name: "Marayeh",
+        description: "The world's largest mirrored building, reflecting the breathtaking beauty of the surrounding desert canyon.",
+        category:  "landmark", 
+        rating: 4.9,
+        image: marayeh
+    },
+    {
+        id: 14,
+        city: "AlUla",
+        name: "Harrat Overview",
+        description: "An incredible lookout over the oasis, offering a bird's-eye view of the city and the black volcanic rock fields.",
+        category:  "nature", 
+        rating: 4.5,
+        image: harrat
+    },
+    {
+        id: 15,
+        city: "AlUla",
+        name: "SomeWhere",
+        description: "A popular restaurant known for its unique Mediterranean-inspired dishes and beautiful outdoor seating.",
+        category:  "food", 
+        rating: 4.6,
+        image: someWhere
+    },
+    {
+        id: 16,
+        city: "AlUla",
+        name: "Marayeh social",
+        description: "Located on the rooftop of the Maraya building, offering a menu created by a Michelin-starred chef.",
+        category:  "food", 
+        rating: 4.8,
+        image: marayehSocial
     },
 ];
 
