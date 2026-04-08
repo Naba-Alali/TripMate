@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Navbar from "../components/Navbar";
 import "../styles/auth.css";
 
 const GOOGLE_LOGO = "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
@@ -35,7 +34,6 @@ function SignUp({ onNavigate }) {
 
     return (
         <div className="auth-page">
-            <Navbar onNavigate={onNavigate} />
             <div className="auth-content">
                 <div className="auth-card">
                 <h1 className="auth-title">
