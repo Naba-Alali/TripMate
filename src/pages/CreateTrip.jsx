@@ -6,9 +6,10 @@ import ItineraryPanel from "../components/PlanTripComponents/ItineraryPanel";
 import MemberPanel from "../components/PlanTripComponents/MemberPanel";
 import PlaceCard from "../components/PlanTripComponents/PlaceCard";
 import placesData from "../components/PlanTripComponents/data/places";
+import Navbar from "../components/Navbar";
 import "../styles/createTrip.css";
 
-function CreateTrip() {
+function CreateTrip({ onNavigate }) {
     const [tripName, setTripName] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [numDays, setNumDays] = useState(1);
@@ -200,7 +201,9 @@ function CreateTrip() {
 
 
     return (
-        <div className="create-trip-page">
+        <div>
+            <Navbar onNavigate={onNavigate} />
+            <div className="create-trip-page">
             <h1 className="create-trip-title">Plan Your <span className="create-trip-title--highlight">Trip</span></h1>
 
             <div className="trip-creation-header">
@@ -284,6 +287,7 @@ function CreateTrip() {
                         <p className="no-trip-msg">Select a trip to view its details</p>
                     )}
                 </div>
+            </div>
             </div>
         </div>
     );

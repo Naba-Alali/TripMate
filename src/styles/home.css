@@ -1,0 +1,204 @@
+.home-page {
+    min-height: 100vh;
+    background-color: var(--off-white);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Navbar ── */
+.home-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 120px;
+    background-color: var(--white);
+    border-bottom: 1.5px solid var(--divider);
+    box-shadow: 0 2px 8px rgba(27, 108, 168, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.home-nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+.home-nav__logo svg {
+    stroke: var(--primary-blue);
+}
+
+.home-nav__links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+}
+
+.home-nav__links button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 400;
+    line-height: 1;
+    transition: color 0.2s;
+}
+
+.home-nav__links button:hover {
+    color: var(--primary-blue);
+}
+
+.home-nav__cta {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.home-nav__cta:hover {
+    background-color: var(--blue-hover);
+}
+
+/* ── Hero ── */
+.home-hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 80px;
+    gap: 60px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.home-hero__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+}
+
+.home-hero__heading {
+    font-size: 3.8rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.15;
+}
+
+.home-hero__heading span {
+    color: var(--primary-blue);
+}
+
+.home-hero__btn {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 16px 36px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.home-hero__btn:hover {
+    background-color: var(--blue-hover);
+}
+
+.home-hero__image-placeholder {
+    flex: 1;
+    max-width: 420px;
+    height: 520px;
+    background-color: var(--divider);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* ── Features ── */
+.home-features {
+    background-color: var(--white);
+    padding: 80px 80px;
+    text-align: center;
+}
+
+.home-features__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 56px;
+}
+
+.home-features__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: var(--white);
+    border: 1.5px solid var(--divider);
+    border-left: 1.5px solid var(--divider);
+    border-radius: 16px;
+    padding: 56px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    text-align: left;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s, border-left 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+    border-left: 3px solid var(--primary-blue);
+}
+
+.feature-card__icon-wrap {
+    background-color: var(--blue-tint);
+    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.feature-card__icon {
+    width: 26px;
+    height: 26px;
+    stroke: var(--primary-blue);
+}
+
+.feature-card__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.feature-card__desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}

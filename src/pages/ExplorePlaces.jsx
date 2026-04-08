@@ -3,10 +3,11 @@ import CategoryFilter from "../components/PlanTripComponents/CategoryFilter";
 import PlaceCard from "../components/PlanTripComponents/PlaceCard";
 import places from "../components/PlanTripComponents/data/places";
 import CityTabs from '../components/PlanTripComponents/CityTabs';
-import PlaceDetailModal from "../components/PlanTripComponents/PlaceDetailModal"; 
+import PlaceDetailModal from "../components/PlanTripComponents/PlaceDetailModal";
+import Navbar from "../components/Navbar";
 import "../styles/ExplorePlaces.css";
 
-function ExplorePlaces() {
+function ExplorePlaces({ onNavigate }) {
     const [activeCategory, setActiveCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCity, setSelectedCity] = useState("All"); 
@@ -20,7 +21,9 @@ function ExplorePlaces() {
     });
 
     return (
-        <div className="explore-page">
+        <div>
+            <Navbar onNavigate={onNavigate} />
+            <div className="explore-page">
             <h1 className="explore-title">
                 <span className="explore-title--highlight">Explore</span> New Places
             </h1>
@@ -68,6 +71,7 @@ function ExplorePlaces() {
                     }}
                 />
             )}
+            </div>
         </div>
     );
 }
