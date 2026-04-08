@@ -4,7 +4,9 @@ import "../styles/auth.css";
 function Login({ onNavigate }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
+    const [banner, setBanner] = useState(null); // { type: "success" | "error", message }
 
     const validate = () => {
         const newErrors = {};
@@ -19,55 +21,79 @@ function Login({ onNavigate }) {
         const newErrors = validate();
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setBanner(null);
             return;
         }
         setErrors({});
-        // TODO: connect to auth backend
-        onNavigate("home");
+        // TODO: replace with real auth — on failure call setBanner({ type: "error", message: "Invalid email or password. Please try again." })
+        setBanner({ type: "success", message: "Login successful! Redirecting..." });
+        setTimeout(() => onNavigate("home"), 1500);
     };
 
     return (
         <div className="auth-page">
             <div className="auth-content">
                 <div className="auth-card">
-                <h1 className="auth-title">
-                    Start your journey with us <span>Today</span>
-                </h1>
+                    <h1 className="auth-title">
+                        Start your journey with us <span>today</span>
+                    </h1>
 
-                <form onSubmit={handleSubmit} noValidate>
-                    <div className="auth-field">
-                        <label htmlFor="email">Email Address</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="you@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className={errors.email ? "input-error" : ""}
-                        />
-                        {errors.email && <span className="field-error">{errors.email}</span>}
-                    </div>
+                    {banner && (
+                        <div className={`auth-banner auth-banner--${banner.type}`}>
+                            <span className="auth-banner__icon">
+                                {banner.type === "success" ? (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                                )}
+                            </span>
+                            {banner.message}
+                        </div>
+                    )}
 
-                    <div className="auth-field">
-                        <label htmlFor="password">Password</label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={errors.password ? "input-error" : ""}
-                        />
-                        {errors.password && <span className="field-error">{errors.password}</span>}
-                    </div>
+                    <form onSubmit={handleSubmit} noValidate>
+                        <div className="auth-field">
+                            <label htmlFor="email">Email Address</label>
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className={errors.email ? "input-error" : ""}
+                            />
+                            {errors.email && <span className="field-error">{errors.email}</span>}
+                        </div>
 
-                    <button type="submit" className="auth-btn-primary">Login</button>
-                </form>
+                        <div className="auth-field">
+                            <label htmlFor="password">Password</label>
+                            <div className="auth-input-wrap">
+                                <input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className={errors.password ? "input-error" : ""}
+                                />
+                                <button type="button" className="auth-eye" onClick={() => setShowPassword(v => !v)}>
+                                    {showPassword ? (
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                                    ) : (
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    )}
+                                </button>
+                            </div>
+                            {errors.password && <span className="field-error">{errors.password}</span>}
+                        </div>
 
-                <p className="auth-footer">
-                    Don't have an account?{" "}
-                    <button onClick={() => onNavigate("signup")}>Sign up</button>
-                </p>
+                        <button type="submit" className="auth-btn-primary">Login</button>
+                    </form>
+
+                    <p className="auth-footer">
+                        Don't have an account?{" "}
+                        <button onClick={() => onNavigate("signup")}>Sign up</button>
+                    </p>
                 </div>
             </div>
         </div>
