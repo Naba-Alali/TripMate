@@ -162,6 +162,115 @@
     text-decoration: underline;
 }
 
+/* ── Back button ── */
+.auth-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 24px;
+    transition: color 0.2s;
+}
+
+.auth-back:hover {
+    color: var(--primary-blue);
+}
+
+.auth-back svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ── Step 2 title variants ── */
+.auth-title--left {
+    text-align: left;
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.auth-subtitle span {
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+/* ── Role cards ── */
+.role-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.role-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 20px 18px;
+    background-color: var(--white);
+    border: 2.5px solid var(--divider);
+    border-radius: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.role-card:hover {
+    border-color: var(--blue-light);
+    box-shadow: 0 2px 12px rgba(27, 108, 168, 0.08);
+}
+
+.role-card--selected {
+    border: 2.5px solid var(--primary-blue);
+    background-color: var(--blue-tint);
+    box-shadow: 0 2px 12px rgba(27, 108, 168, 0.15);
+}
+
+.role-card__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: var(--blue-tint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.role-card--selected .role-card__icon {
+    background-color: rgba(27, 108, 168, 0.15);
+}
+
+.role-card__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--primary-blue);
+}
+
+.role-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.role-card__desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ── Legacy ── */
 .auth-success {
     font-size: 0.85rem;
     color: var(--success);

@@ -1,6 +1,8 @@
 import "../styles/home.css";
 
-function Navbar({ onNavigate }) {
+function Navbar({ onNavigate, user }) {
+    const firstName = user?.name?.split(" ")[0] || "";
+
     return (
         <nav className="home-nav">
             <div className="home-nav__logo">
@@ -17,9 +19,15 @@ function Navbar({ onNavigate }) {
                 <li><button onClick={() => onNavigate("trip")}>Plan Trip</button></li>
             </ul>
 
-            <button className="home-nav__cta" onClick={() => onNavigate("signup")}>
-                Get started
-            </button>
+            {user ? (
+                <button className="home-nav__hello" onClick={() => onNavigate("profile")}>
+                    Hello, {firstName}
+                </button>
+            ) : (
+                <button className="home-nav__cta" onClick={() => onNavigate("signup")}>
+                    Get started
+                </button>
+            )}
         </nav>
     );
 }

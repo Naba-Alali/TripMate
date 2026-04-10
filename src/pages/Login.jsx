@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/auth.css";
 
-function Login({ onNavigate }) {
+function Login({ onNavigate, setUser }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +26,9 @@ function Login({ onNavigate }) {
         }
         setErrors({});
         // TODO: replace with real auth — on failure call setBanner({ type: "error", message: "Invalid email or password. Please try again." })
+        setUser({ name: email.split("@")[0], email, role: "member" });
         setBanner({ type: "success", message: "Login successful! Redirecting..." });
-        setTimeout(() => onNavigate("home"), 1500);
+        setTimeout(() => onNavigate("profile"), 1500);
     };
 
     return (
