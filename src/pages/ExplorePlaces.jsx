@@ -7,7 +7,7 @@ import PlaceDetailModal from "../components/PlanTripComponents/PlaceDetailModal"
 import Navbar from "../components/Navbar";
 import "../styles/ExplorePlaces.css";
 
-function ExplorePlaces({ onNavigate }) {
+function ExplorePlaces({ onNavigate, user, currentPage, setUser, isGuest }) {
     const [activeCategory, setActiveCategory] = useState("all");
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedCity, setSelectedCity] = useState("All"); 
@@ -22,7 +22,7 @@ function ExplorePlaces({ onNavigate }) {
 
     return (
         <div>
-            <Navbar onNavigate={onNavigate} />
+            <Navbar onNavigate={onNavigate} user={user} currentPage={currentPage} setUser={setUser} isGuest={isGuest} />
             <div className="explore-page">
             <h1 className="explore-title">
                 <span className="explore-title--highlight">Explore</span> New Places

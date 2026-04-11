@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { loginUser } from "../utils/auth";
 import "../styles/auth.css";
 
 function Login({ onNavigate, setUser }) {
@@ -25,8 +26,12 @@ function Login({ onNavigate, setUser }) {
             return;
         }
         setErrors({});
-        // TODO: replace with real auth — on failure call setBanner({ type: "error", message: "Invalid email or password. Please try again." })
-        setUser({ name: email.split("@")[0], email, role: "member" });
+        const result = loginUser({ email, password });
+        if (!result.success) {
+            setBanner({ type: "error", message: result.message });
+            return;
+        }
+        setUser(result.user);
         setBanner({ type: "success", message: "Login successful! Redirecting..." });
         setTimeout(() => onNavigate("profile"), 1500);
     };
@@ -35,6 +40,12 @@ function Login({ onNavigate, setUser }) {
         <div className="auth-page">
             <div className="auth-content">
                 <div className="auth-card">
+                    <button className="auth-back" onClick={() => onNavigate("home")}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                        Back to Home
+                    </button>
                     <h1 className="auth-title">
                         Start your journey with us <span>today</span>
                     </h1>

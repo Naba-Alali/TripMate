@@ -1,24 +1,22 @@
 import Navbar from "../components/Navbar";
+import homeBg from "../assets/imgs/HomePage.jpeg";
 import "../styles/home.css";
 
-function Home({ onNavigate }) {
+function Home({ onNavigate, user, currentPage, setUser, onGuestContinue }) {
     return (
-        <div className="home-page">
-            <Navbar onNavigate={onNavigate} />
+        <div className="home-page" style={{ backgroundImage: `url(${homeBg})` }}>
+            <Navbar onNavigate={onNavigate} user={user} currentPage={currentPage} setUser={setUser} />
 
+            <div className="home-page__overlay" />
             <section className="home-hero">
                 <div className="home-hero__text">
                     <h1 className="home-hero__heading">
                         Your Next Travel<br />
                         <span>Starts Here</span>
                     </h1>
-                    <button className="home-hero__btn" onClick={() => onNavigate("trip")}>
-                        Start Planning
+                    <button className="home-hero__btn" onClick={onGuestContinue}>
+                        Continue As Guest
                     </button>
-                </div>
-
-                <div className="home-hero__image-placeholder">
-                    <span>Image placeholder</span>
                 </div>
             </section>
 
