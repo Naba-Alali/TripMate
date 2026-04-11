@@ -15,21 +15,60 @@ function Login({ onNavigate, setUser }) {
         if (!password) newErrors.password = "Password is required.";
         return newErrors;
     };
+//
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newErrors = validate();
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            setBanner(null);
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        setBanner(null);
+        return;
+    }
+
+    setErrors({});
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const adminEmail = "admin@gmail.com";
+    const adminPassword = "admin123";
+
+    if (normalizedEmail === adminEmail) {
+        if (password !== adminPassword) {
+            setBanner({
+                type: "error",
+                message: "Invalid admin password. Please try again.",
+            });
             return;
         }
-        setErrors({});
-        // TODO: replace with real auth — on failure call setBanner({ type: "error", message: "Invalid email or password. Please try again." })
-        setUser({ name: email.split("@")[0], email, role: "member" });
-        setBanner({ type: "success", message: "Login successful! Redirecting..." });
-        setTimeout(() => onNavigate("profile"), 1500);
-    };
+
+        setUser({
+            name: "Admin",
+            email: normalizedEmail,
+            role: "Admin",
+        });
+
+        setBanner({
+            type: "success",
+            message: "Admin login successful! Redirecting...",
+        });
+
+         onNavigate("admin");
+        return;
+    }
+
+    setUser({
+        name: email.split("@")[0],
+        email: normalizedEmail,
+        role: "Member",
+    });
+
+    setBanner({
+        type: "success",
+        message: "Login successful! Redirecting...",
+    });
+
+    onNavigate("profile");
+};
 
     return (
         <div className="auth-page">
