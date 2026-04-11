@@ -48,7 +48,7 @@ Users can sign up, log in, build trips with custom durations, add places to each
 
 ---
 
-## Tech 
+## Tech
 
 - **Framework:** React (with Hooks)
 - **Styling:** CSS stylesheets
