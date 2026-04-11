@@ -28,12 +28,35 @@ Users can sign up, log in, build trips with custom durations, add places to each
 
 | Feature        | Description |
 |----------------|---|
-| Home Page      | Landing page introducing TripMate |
-| Auth           | User Sign Up and Login |
-| Profile        | User profile page |
+| Home Page      | Landing page with a full-page background image, gradient overlay, hero text, "Continue as Guest" mode, and a Features section |
+| Login          | Email and password login with show/hide password toggle, success and error banners, and a back-to-home arrow |
+| Sign Up        | Full name, email, password, and confirm password form with duplicate email detection, password validation, and account creation |
+| User Profile   | Displays the user's name, real-time location (via Geolocation + OpenStreetMap), join date, trip count, photo count, trips tab with Organizer badge, and a photos upload tab |
 | Create Trip    | Build a trip with name, destination, duration, itinerary, and members |
 | Explore Places | Browse and filter places by city and category |
-| Admin Panel  | Admin management dashboard |
+| Admin Panel    | Admin management dashboard |
+
+### Home Page — Detailed Features
+- Full-page background image with a left-side gradient overlay blending into the hero text
+- Hero section with tagline and a **Continue as Guest** button
+- Guest mode hides Plan Trip, Explore, and the hamburger menu from the navbar
+- Features section showcasing the app's key highlights with styled cards
+- Navbar logo **"Trip Mate"** is clickable and navigates back to the home page
+
+### Login & Sign Up — Detailed Features
+- Animated success and error banner messages
+- Show/hide password toggle
+- Back-to-home arrow on both pages
+- Sign Up validates: full name, email format, password length, password match, and duplicate email
+- On successful login or sign up, the user is navigated to their profile and session is persisted in localStorage
+
+### User Profile — Detailed Features
+- Displays the user's full name and join date (formatted from account creation timestamp)
+- Real-time location detection using the browser Geolocation API + OpenStreetMap Nominatim (no API key required)
+- Stats cards showing total trips and total photos
+- **Trips tab:** lists all trips created by the user, each showing the trip name, destination, and an **Organizer** badge
+- **Photos tab:** upload one or more photos; they display in a responsive grid. Photos are stored as object URLs per session
+- Trips are loaded from localStorage and stay in sync with the Create Trip page
 
 ### Create Trip — Detailed Features
 - Create multiple trips with a name, destination city, and duration **(1–12 days)**
