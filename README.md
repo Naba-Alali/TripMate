@@ -36,28 +36,6 @@ Users can sign up, log in, build trips with custom durations, add places to each
 | Explore Places | Browse and filter places by city and category |
 | Admin Panel    | Admin management dashboard |
 
-### Home Page — Detailed Features
-- Full-page background image with a left-side gradient overlay blending into the hero text
-- Hero section with tagline and a **Continue as Guest** button
-- Guest mode hides Plan Trip, Explore, and the hamburger menu from the navbar
-- Features section showcasing the app's key highlights with styled cards
-- Navbar logo **"Trip Mate"** is clickable and navigates back to the home page
-
-### Login & Sign Up — Detailed Features
-- Animated success and error banner messages
-- Show/hide password toggle
-- Back-to-home arrow on both pages
-- Sign Up validates: full name, email format, password length, password match, and duplicate email
-- On successful login or sign up, the user is navigated to their profile and session is persisted in localStorage
-
-### User Profile — Detailed Features
-- Displays the user's full name and join date (formatted from account creation timestamp)
-- Real-time location detection using the browser Geolocation API + OpenStreetMap Nominatim (no API key required)
-- Stats cards showing total trips and total photos
-- **Trips tab:** lists all trips created by the user, each showing the trip name, destination, and an **Organizer** badge
-- **Photos tab:** upload one or more photos; they display in a responsive grid. Photos are stored as object URLs per session
-- Trips are loaded from localStorage and stay in sync with the Create Trip page
-
 ### Create Trip — Detailed Features
 - Create multiple trips with a name, destination city, and duration **(1–12 days)**
 - Add and remove days dynamically from the itinerary
@@ -172,6 +150,30 @@ Make sure you have the following installed:
 ---
 
 ## Usage
+
+### Home Page
+
+- The landing page is shown on first visit.
+- Click **Get Started** to go to the Sign Up page, or **Log In** if you already have an account.
+- Click **Continue as Guest** to browse the app without an account. Plan Trip and Explore will be hidden in guest mode.
+
+### Signing Up
+
+1. Click **Get Started** from the home page.
+2. Fill in your **Full Name**, **Email**, **Password**, and **Confirm Password**.
+3. Click **Create Account** — you'll be taken to your profile on success.
+
+### Logging In
+
+1. Click **Log In** from the home page or navbar.
+2. Enter your **Email** and **Password**.
+3. Click **Log In** — you'll be taken to your profile on success.
+
+### User Profile
+
+- View your name, location, join date, and stats.
+- **Trips tab:** see all trips you've created, each marked with an **Organizer** badge.
+- **Photos tab:** click **+ Add Photo** to upload images, which will appear in a grid.
 
 ### Creating a Trip
 
