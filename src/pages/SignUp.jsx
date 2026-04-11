@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { registerUser, checkEmailExists } from "../utils/auth";
 import "../styles/auth.css";
 
 const GOOGLE_LOGO = "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
@@ -10,7 +11,6 @@ const EyeIcon = ({ visible }) => visible ? (
 );
 
 function SignUp({ onNavigate, setUser }) {
-    const [step, setStep] = useState(1);
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,7 +19,6 @@ function SignUp({ onNavigate, setUser }) {
     const [showConfirm, setShowConfirm] = useState(false);
     const [errors, setErrors] = useState({});
     const [banner, setBanner] = useState(null);
-    const [role, setRole] = useState("organizer");
 
     const validate = () => {
         const newErrors = {};
@@ -42,177 +41,122 @@ function SignUp({ onNavigate, setUser }) {
             return;
         }
         setErrors({});
-        setBanner(null);
-        setStep(2);
-    };
-
-    const handleContinue = () => {
-        // TODO: submit email + password + role to backend
-        setUser({ name: fullName, email, role });
+        if (checkEmailExists(email)) {
+            setBanner({ type: "error", message: "An account with this email already exists." });
+            return;
+        }
+        const joinedAt = new Date();
+        const result = registerUser({ fullName, email, password, role: "member", joinedAt });
+        setUser(result.user);
         setBanner({ type: "success", message: "Account created! Redirecting..." });
         setTimeout(() => onNavigate("profile"), 1500);
     };
-
-    const Banner = () => banner ? (
-        <div className={`auth-banner auth-banner--${banner.type}`}>
-            <span className="auth-banner__icon">
-                {banner.type === "success" ? (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
-                ) : (
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                )}
-            </span>
-            {banner.message}
-        </div>
-    ) : null;
 
     return (
         <div className="auth-page">
             <div className="auth-content">
                 <div className="auth-card">
+                    <button className="auth-back" onClick={() => onNavigate("home")}>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+                        </svg>
+                        Back to Home
+                    </button>
 
-                    {step === 1 && (
-                        <>
-                            <h1 className="auth-title">
-                                Start your journey with us <span>today</span>
-                            </h1>
+                    <h1 className="auth-title">
+                        Start your journey with us <span>today</span>
+                    </h1>
 
-                            <Banner />
-
-                            <form onSubmit={handleSubmit} noValidate>
-                                <div className="auth-field">
-                                    <label htmlFor="fullName">Full Name</label>
-                                    <input
-                                        id="fullName"
-                                        type="text"
-                                        placeholder="John Doe"
-                                        value={fullName}
-                                        onChange={(e) => setFullName(e.target.value)}
-                                        className={errors.fullName ? "input-error" : ""}
-                                    />
-                                    {errors.fullName && <span className="field-error">{errors.fullName}</span>}
-                                </div>
-
-                                <div className="auth-field">
-                                    <label htmlFor="email">Email Address</label>
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        placeholder="you@example.com"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className={errors.email ? "input-error" : ""}
-                                    />
-                                    {errors.email && <span className="field-error">{errors.email}</span>}
-                                </div>
-
-                                <div className="auth-field">
-                                    <label htmlFor="password">Password</label>
-                                    <div className="auth-input-wrap">
-                                        <input
-                                            id="password"
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="••••••••"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            className={errors.password ? "input-error" : ""}
-                                        />
-                                        <button type="button" className="auth-eye" onClick={() => setShowPassword(v => !v)}>
-                                            <EyeIcon visible={showPassword} />
-                                        </button>
-                                    </div>
-                                    {errors.password && <span className="field-error">{errors.password}</span>}
-                                </div>
-
-                                <div className="auth-field">
-                                    <label htmlFor="confirmPassword">Confirm Password</label>
-                                    <div className="auth-input-wrap">
-                                        <input
-                                            id="confirmPassword"
-                                            type={showConfirm ? "text" : "password"}
-                                            placeholder="••••••••"
-                                            value={confirmPassword}
-                                            onChange={(e) => setConfirmPassword(e.target.value)}
-                                            className={errors.confirmPassword ? "input-error" : ""}
-                                        />
-                                        <button type="button" className="auth-eye" onClick={() => setShowConfirm(v => !v)}>
-                                            <EyeIcon visible={showConfirm} />
-                                        </button>
-                                    </div>
-                                    {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
-                                </div>
-
-                                <button type="submit" className="auth-btn-primary">Create Account</button>
-                            </form>
-
-                            <div className="auth-divider">or continue with</div>
-
-                            <button className="auth-btn-google" type="button">
-                                <img src={GOOGLE_LOGO} alt="Google" />
-                                Sign up with Google
-                            </button>
-
-                            <p className="auth-footer">
-                                Already have an account?{" "}
-                                <button onClick={() => onNavigate("login")}>Log in</button>
-                            </p>
-                        </>
+                    {banner && (
+                        <div className={`auth-banner auth-banner--${banner.type}`}>
+                            <span className="auth-banner__icon">
+                                {banner.type === "success" ? (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                                )}
+                            </span>
+                            {banner.message}
+                        </div>
                     )}
 
-                    {step === 2 && (
-                        <>
-                            <button className="auth-back" onClick={() => setStep(1)}>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-                                </svg>
-                                Back
-                            </button>
+                    <form onSubmit={handleSubmit} noValidate>
+                        <div className="auth-field">
+                            <label htmlFor="fullName">Full Name</label>
+                            <input
+                                id="fullName"
+                                type="text"
+                                placeholder="John Doe"
+                                value={fullName}
+                                onChange={(e) => setFullName(e.target.value)}
+                                className={errors.fullName ? "input-error" : ""}
+                            />
+                            {errors.fullName && <span className="field-error">{errors.fullName}</span>}
+                        </div>
 
-                            <h1 className="auth-title auth-title--left">What's your role?</h1>
-                            <p className="auth-subtitle">Choose how you'll be using <span>Trip Mate</span></p>
+                        <div className="auth-field">
+                            <label htmlFor="email">Email Address</label>
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className={errors.email ? "input-error" : ""}
+                            />
+                            {errors.email && <span className="field-error">{errors.email}</span>}
+                        </div>
 
-                            <Banner />
-
-                            <div className="role-cards">
-                                <button
-                                    className={`role-card ${role === "organizer" ? "role-card--selected" : ""}`}
-                                    onClick={() => setRole("organizer")}
-                                    type="button"
-                                >
-                                    <div className="role-card__icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                            <rect x="9" y="2" width="6" height="4" rx="1"/>
-                                            <path d="M5 4h-1a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1"/>
-                                            <line x1="9" y1="12" x2="15" y2="12"/>
-                                            <line x1="9" y1="16" x2="13" y2="16"/>
-                                        </svg>
-                                    </div>
-                                    <h3 className="role-card__title">Organizer</h3>
-                                    <p className="role-card__desc">Plan and manage trips for your group</p>
-                                </button>
-
-                                <button
-                                    className={`role-card ${role === "member" ? "role-card--selected" : ""}`}
-                                    onClick={() => setRole("member")}
-                                    type="button"
-                                >
-                                    <div className="role-card__icon">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                            <circle cx="12" cy="8" r="4"/>
-                                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                                        </svg>
-                                    </div>
-                                    <h3 className="role-card__title">Member</h3>
-                                    <p className="role-card__desc">Join trips and explore with others</p>
+                        <div className="auth-field">
+                            <label htmlFor="password">Password</label>
+                            <div className="auth-input-wrap">
+                                <input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className={errors.password ? "input-error" : ""}
+                                />
+                                <button type="button" className="auth-eye" onClick={() => setShowPassword(v => !v)}>
+                                    <EyeIcon visible={showPassword} />
                                 </button>
                             </div>
+                            {errors.password && <span className="field-error">{errors.password}</span>}
+                        </div>
 
-                            <button className="auth-btn-primary" onClick={handleContinue}>
-                                Continue
-                            </button>
-                        </>
-                    )}
+                        <div className="auth-field">
+                            <label htmlFor="confirmPassword">Confirm Password</label>
+                            <div className="auth-input-wrap">
+                                <input
+                                    id="confirmPassword"
+                                    type={showConfirm ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className={errors.confirmPassword ? "input-error" : ""}
+                                />
+                                <button type="button" className="auth-eye" onClick={() => setShowConfirm(v => !v)}>
+                                    <EyeIcon visible={showConfirm} />
+                                </button>
+                            </div>
+                            {errors.confirmPassword && <span className="field-error">{errors.confirmPassword}</span>}
+                        </div>
 
+                        <button type="submit" className="auth-btn-primary">Create Account</button>
+                    </form>
+
+                    <div className="auth-divider">or continue with</div>
+
+                    <button className="auth-btn-google" type="button">
+                        <img src={GOOGLE_LOGO} alt="Google" />
+                        Sign up with Google
+                    </button>
+
+                    <p className="auth-footer">
+                        Already have an account?{" "}
+                        <button onClick={() => onNavigate("login")}>Log in</button>
+                    </p>
                 </div>
             </div>
         </div>
