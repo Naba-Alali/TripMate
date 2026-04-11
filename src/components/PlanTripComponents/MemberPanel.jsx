@@ -7,7 +7,6 @@ function MemberPanel({ members, onAdd, onRemove, tripName }) {
     const [nameInput, setNameInput] = useState("");
     const [error, setError] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
-
     const handleAdd = () => {
         if (!emailInput || !nameInput) {
             setError("Please enter both name and email.");
@@ -15,8 +14,10 @@ function MemberPanel({ members, onAdd, onRemove, tripName }) {
             return;
         }
 
-        if (!emailInput.includes("@")) {
-            setError("Please enter a valid email.");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(emailInput)) {
+            setError("Please enter a valid email address.");
             setSuccessMsg("");
             return;
         }
@@ -38,6 +39,7 @@ function MemberPanel({ members, onAdd, onRemove, tripName }) {
         setEmailInput("");
         setNameInput("");
     };
+
 
     // Function to handle removal and show the message
     const handleRemoveClick = (member) => {
