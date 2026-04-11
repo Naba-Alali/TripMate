@@ -6,14 +6,13 @@
 
 ## Table of Contents
 
-- [Project Description](#-project-description)
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Folder Structure](#-folder-structure)
-- [Setup & Installation](#-setup--installation)
-- [Environment Variables](#-environment-variables)
-- [Usage](#-usage)
-- [Team Members](#-team-members)
+- [Project Description](#project-description)
+- [Features](#features)
+- [Tech](#tech)
+- [Folder Structure](#folder-structure)
+- [Setup & Installation](#setup--installation)
+- [Usage](#usage)
+- [Team Members](#team-members)
 
 ---
 
