@@ -1,8 +1,11 @@
 .home-page {
     min-height: 100vh;
-    background-color: var(--off-white);
     display: flex;
     flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* ── Navbar ── */
@@ -10,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 120px;
+    padding: 18px 60px;
     background-color: var(--white);
     border-bottom: 1.5px solid var(--divider);
     box-shadow: 0 2px 8px rgba(27, 108, 168, 0.06);
@@ -36,10 +39,10 @@
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 40px;
 }
 
-.home-nav__links button {
+.home-nav__link-btn {
     background: none;
     border: none;
     font-size: 1rem;
@@ -50,8 +53,13 @@
     transition: color 0.2s;
 }
 
-.home-nav__links button:hover {
+.home-nav__link-btn:hover {
     color: var(--primary-blue);
+}
+
+.home-nav__link-btn--active {
+    color: var(--primary-blue);
+    font-weight: 700;
 }
 
 .home-nav__cta {
@@ -70,6 +78,12 @@
     background-color: var(--blue-hover);
 }
 
+.home-nav__right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
 .home-nav__hello {
     background: none;
     border: none;
@@ -85,25 +99,96 @@
     opacity: 0.75;
 }
 
+/* ── Hamburger menu ── */
+.nav-menu {
+    position: relative;
+}
+
+.nav-menu__trigger {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    width: 30px;
+}
+
+.nav-menu__trigger span {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    background-color: #9aa5b1;
+    border-radius: 2px;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.nav-menu__trigger:hover span {
+    background-color: var(--text-muted);
+}
+
+.nav-menu__dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background-color: var(--white);
+    border: 1.5px solid var(--divider);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+    overflow: hidden;
+    z-index: 200;
+}
+
+.nav-menu__dropdown button {
+    display: block;
+    width: 100%;
+    padding: 12px 18px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.nav-menu__dropdown button:hover {
+    background-color: var(--off-white);
+    color: var(--primary-blue);
+}
+
 /* ── Hero ── */
 .home-hero {
     flex: 1;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 60px 80px;
-    gap: 60px;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
+    min-height: 560px;
+    z-index: 1;
+}
+
+.home-page__overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to right, rgba(247, 249, 251, 0.95) 35%, rgba(247, 249, 251, 0.5) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .home-hero__text {
-    flex: 1;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 36px;
+    padding: 60px 120px;
+    max-width: 600px;
 }
 
 .home-hero__heading {
@@ -133,24 +218,13 @@
     background-color: var(--blue-hover);
 }
 
-.home-hero__image-placeholder {
-    flex: 1;
-    max-width: 420px;
-    height: 520px;
-    background-color: var(--divider);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
 /* ── Features ── */
 .home-features {
-    background-color: var(--white);
+    background-color: transparent;
     padding: 80px 80px;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .home-features__title {

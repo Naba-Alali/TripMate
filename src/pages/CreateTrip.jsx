@@ -7,9 +7,10 @@ import MemberPanel from "../components/PlanTripComponents/MemberPanel";
 import PlaceCard from "../components/PlanTripComponents/PlaceCard";
 import placesData from "../components/PlanTripComponents/data/places";
 import Navbar from "../components/Navbar";
+import { saveUserTrip, deleteUserTrip } from "../utils/trips";
 import "../styles/createTrip.css";
 
-function CreateTrip({ onNavigate }) {
+function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     const [tripName, setTripName] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [numDays, setNumDays] = useState(1);
@@ -53,11 +54,8 @@ function CreateTrip({ onNavigate }) {
         };
 
         setTrips([...trips, newTrip]);
-        setActiveTripId(newTrip.id); // Automatically switch to the new trip panel
-
-        // Reset inputs for the next trip
-        setTrips([...trips, newTrip]);
         setActiveTripId(newTrip.id);
+        if (user?.email) saveUserTrip(user.email, newTrip);
         setTripName("");
         setSelectedCity("");
         setNumDays(1);
@@ -143,10 +141,10 @@ function CreateTrip({ onNavigate }) {
     {/* Delete Trip function */}
     const handleDeleteTrip = (tripId) => {
         setTrips(prevTrips => prevTrips.filter(t => t.id !== tripId));
-        // If we deleted the active trip, clear the selection
         if (activeTripId === tripId) {
             setActiveTripId(null);
         }
+        if (user?.email) deleteUserTrip(user.email, tripId);
     };
 
     // Add a new day to the ACTIVE trip
@@ -202,7 +200,7 @@ function CreateTrip({ onNavigate }) {
 
     return (
         <div>
-            <Navbar onNavigate={onNavigate} />
+            <Navbar onNavigate={onNavigate} user={user} currentPage={currentPage} setUser={setUser} />
             <div className="create-trip-page">
             <h1 className="create-trip-title">Plan Your <span className="create-trip-title--highlight">Trip</span></h1>
 
