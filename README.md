@@ -69,6 +69,13 @@ TripMate/
 │   ├── assets/
 │   │   └── imgs/
 │   ├── components/
+│   │   ├── AdminComponents/
+│   │   │   ├── AdminSidebar.jsx
+│   │   │   ├── DashboardView.jsx
+│   │   │   ├── UsersView.jsx
+│   │   │   ├── CitiesView.jsx
+│   │   │   ├── PlacesView.jsx
+│   │   │   └── ReportsView.jsx
 │   │   ├── PlanTripComponents/
 │   │   │   ├── data/
 │   │   │   │   ├── members.js
@@ -83,6 +90,7 @@ TripMate/
 │   │   │   └── TripForm.jsx
 │   │   └── Navbar.jsx
 │   ├── pages/
+│   │   ├── AdminPage.jsx
 │   │   ├── CreateTrip.jsx
 │   │   ├── ExplorePlaces.jsx
 │   │   ├── Home.jsx
@@ -90,6 +98,7 @@ TripMate/
 │   │   ├── Profile.jsx
 │   │   └── SignUp.jsx
 │   ├── styles/
+│   │   ├── admin.css
 │   │   ├── auth.css
 │   │   ├── CategoryFilter.css
 │   │   ├── CityTabs.css
@@ -193,6 +202,24 @@ Make sure you have the following installed:
 - Click on a place card for more details and add reviews. (Note: Reviews are stored in-memory and will reset on page refresh.)
 ---
 
+### Admin Panel Usage
+
+To access the Admin Panel, the user must log in using the admin account credentials.
+
+- Email: admin@gmail.com  
+- Password: admin123  
+
+After logging in with these credentials, the user will be redirected to the Admin Panel.
+Inside the Admin Panel, the administrator can navigate between different sections using the sidebar, including:
+- Dashboard
+- Users
+- Cities
+- Popular Places
+- Reports
+
+4. In the **Users** section, the administrator can edit user information or delete user accounts.
+
+> Note: (Note: Reviews are stored in-memory and will reset on page refresh.)
 ## Team Members
 
 | Name | Role |
