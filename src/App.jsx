@@ -90,6 +90,9 @@ function App() {
     }
 
     if (page === "trip") {
+        if (!user) {
+            return <Login onNavigate={setPage} setUser={setUser} />;
+        }
         return (
             <CreateTrip
                 onNavigate={setPage}
