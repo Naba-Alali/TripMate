@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import placesRoutes from "./routes/places.routes.js";
+import tripRoutes from "./routes/trips.routes.js";
 
 dotenv.config();
 
@@ -27,3 +28,4 @@ app.listen(PORT, () => {
 });
 
 app.use("/api/places", placesRoutes);
+app.use("/api/trips", tripRoutes);
