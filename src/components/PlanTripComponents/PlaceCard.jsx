@@ -4,7 +4,10 @@ function PlaceCard({ place, onAdd, onClick }) {
     return (
         <div className="place-card" onClick={onClick} style={{ cursor: 'pointer' }}>
             <div className="card-image-wrapper">
-                <img src={place.image} alt={place.name} className="card-image" />
+                <img
+                    src={place.image?.startsWith('http') ? place.image : new URL(`../../assets/imgs/${place.image}`, import.meta.url).href}                    alt={place.name}
+                    className="card-image"
+                />
                 <span className="card-badge">{place.category}</span>
 
                 {onAdd && (
