@@ -42,7 +42,10 @@ const tripSchema = new mongoose.Schema({
         min: 1,
         max: 12,
     },
-    itinerary: [daySchema],
+    itinerary: {
+        type: mongoose.Schema.Types.Mixed, // يقبل أي شكل
+        default: {}
+    },
     members: [memberSchema],
     createdAt: {
         type: Date,

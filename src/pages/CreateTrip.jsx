@@ -9,6 +9,7 @@ import placesData from "../components/PlanTripComponents/data/places";
 import Navbar from "../components/Navbar";
 import { saveUserTrip, deleteUserTrip } from "../utils/trips";
 import "../styles/createTrip.css";
+import { checkEmailExists } from "../utils/auth";
 
 function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     const [tripName, setTripName] = useState("");
@@ -27,7 +28,7 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     const activeTrip = trips.find(t => t.id === activeTripId);
 
     // Create a new Trip entry
-    const handleCreateNewTrip = () => {
+    const handleCreateNewTrip = async () => {
         if (!tripName.trim()) {
             setFormError("Please enter a trip name.");
             setTimeout(() => setFormError(""), 3000);
@@ -45,17 +46,18 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
         }
 
         const newTrip = {
-            id: Date.now(),
             name: tripName,
             city: selectedCity,
             days: numDays,
             itinerary: newItinerary,
-            members: [{ id: 1, name: "You", email: "you@email.com", role: "Organizer" }]
+            members: [{ name: user?.name || "You", email: user?.email || "", role: "Organizer" }]
         };
 
-        setTrips([...trips, newTrip]);
-        setActiveTripId(newTrip.id);
-        if (user?.email) saveUserTrip(user.email, newTrip);
+        const saved = await saveUserTrip(newTrip);
+        const tripWithId = { ...newTrip, id: saved?._id || Date.now(), _id: saved?._id };
+
+        setTrips([...trips, tripWithId]);
+        setActiveTripId(tripWithId.id);
         setTripName("");
         setSelectedCity("");
         setNumDays(1);
@@ -103,7 +105,18 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
         }));
     };
 
-    const handleAddMember = (newMember) => {
+    const handleAddMember = async (newMember) => {
+        console.log("user email:", user?.email);
+        console.log("input email:", newMember.email);
+        if (newMember.email.toLowerCase() === user?.email?.toLowerCase()) {
+            return "self";
+        }
+
+        const exists = await checkEmailExists(newMember.email);
+        if (!exists) {
+            return false;
+        }
+
         setTrips(prevTrips => prevTrips.map(trip => {
             if (trip.id === activeTripId) {
                 return { ...trip, members: [...trip.members, { ...newMember, id: Date.now(), role: "Member" }] };

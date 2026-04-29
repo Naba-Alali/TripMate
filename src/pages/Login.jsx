@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/auth.css";
+import { loginUser } from "../utils/auth";
 
 function Login({ onNavigate, setUser }) {
     const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ function Login({ onNavigate, setUser }) {
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const newErrors = validate();
@@ -36,46 +37,21 @@ function Login({ onNavigate, setUser }) {
 
         setErrors({});
 
-        const normalizedEmail = email.trim().toLowerCase();
-        const adminEmail = "admin@gmail.com";
-        const adminPassword = "admin123";
+        const result = await loginUser({ email: email.trim().toLowerCase(), password });
 
-        if (normalizedEmail === adminEmail) {
-            if (password !== adminPassword) {
-                setBanner({
-                    type: "error",
-                    message: "Invalid admin password. Please try again.",
-                });
-                return;
-            }
-
-            setUser({
-                name: "Admin",
-                email: normalizedEmail,
-                role: "Admin",
-            });
-
-            setBanner({
-                type: "success",
-                message: "Admin login successful! Redirecting...",
-            });
-
-            setTimeout(() => onNavigate("admin"), 1200);
+        if (!result.success) {
+            setBanner({ type: "error", message: result.message });
             return;
         }
 
-        setUser({
-            name: normalizedEmail.split("@")[0],
-            email: normalizedEmail,
-            role: "Member",
-        });
+        setUser(result.user);
+        setBanner({ type: "success", message: "Login successful! Redirecting..." });
 
-        setBanner({
-            type: "success",
-            message: "Login successful! Redirecting...",
-        });
-
-        setTimeout(() => onNavigate("profile"), 1200);
+        if (result.user.role === "Admin") {
+            setTimeout(() => onNavigate("admin"), 1200);
+        } else {
+            setTimeout(() => onNavigate("profile"), 1200);
+        }
     };
 
     return (

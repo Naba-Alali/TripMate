@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
@@ -64,6 +64,20 @@ router.post("/login", async (req, res) => {
             },
             token: generateToken(user),
         });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET /api/auth/check-email?email=test@test.com
+router.get("/check-email", async (req, res) => {
+    const { email } = req.query;
+    try {
+        const user = await User.findOne({ email: email.toLowerCase() });
+        if (!user) {
+            return res.status(404).json({ exists: false, message: "No account found with this email." });
+        }
+        res.json({ exists: true, name: user.fullName, email: user.email });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

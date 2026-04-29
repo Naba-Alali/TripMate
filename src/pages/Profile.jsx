@@ -7,7 +7,15 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
     const [activeTab, setActiveTab] = useState("trips");
     const [photos, setPhotos] = useState([]);
     const [location, setLocation] = useState("Detecting location...");
-    const [trips, setTrips] = useState(() => user?.email ? getUserTrips(user.email) : []);
+    const [trips, setTrips] = useState([]);
+
+    useEffect(() => {
+        const fetchTrips = async () => {
+            const data = await getUserTrips();
+            setTrips(Array.isArray(data) ? data : []);
+        };
+        if (user) fetchTrips();
+    }, [user]);
 
     useEffect(() => {
         if (!navigator.geolocation) {
@@ -127,16 +135,18 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                                 <p className="profile-empty">No trips yet. <button onClick={() => onNavigate("trip")}>Plan your first trip!</button></p>
                             ) : (
                                 trips.map(trip => (
-                                    <div key={trip.id} className="trip-item">
+                                    <div key={trip._id} className="trip-item">
                                         <div className="trip-item__left">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                                                 <path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 19-7z"/>
                                             </svg>
-                                            <span className="trip-item__name">{trip.name} — {trip.city}</span>
+                                            <span className="trip-item__name">{trip.name} — {trip.destination}</span>
                                         </div>
                                         <div className="trip-item__right">
                                             <span className="trip-item__badge">Organizer</span>
-                                            <span className="trip-item__date">{trip.createdAt}</span>
+                                            <span className="trip-item__date">
+                                                {new Date(trip.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                                            </span>
                                         </div>
                                     </div>
                                 ))

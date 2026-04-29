@@ -2,33 +2,44 @@ import express from "express";
 import Review from "../models/Review.js";
 import { protect } from "../middleware/auth.middleware.js";
 
+
 const router = express.Router();
 
-// GET /api/reviews/:placeId — جيب كل reviews حق مكان
-router.get("/:placeId", async (req, res) => {
-    try {
-        const reviews = await Review.find({ placeId: req.params.placeId }).sort({ createdAt: -1 });
-        res.json(reviews);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// POST /api/reviews/:placeId — أضف review
 router.post("/:placeId", protect, async (req, res) => {
+
+    if (!req.user) {
+        return res.status(401).json({ message: "Login required" });
+    }
+
     const { rating, comment } = req.body;
+
+    if (!rating || !comment) {
+        return res.status(400).json({ message: "Rating and comment required" });
+    }
+
     try {
-        const review = await Review.create({
+        const existingReview = await Review.findOne({
             placeId: req.params.placeId,
-            userId: req.user.id,
-            userName: req.user.email.split("@")[0],
+            userId: req.user._id,
+        });
+
+        if (existingReview) {
+            return res.status(400).json({
+                message: "You already reviewed this place"
+            });
+        }
+
+        await Review.create({
+            placeId: req.params.placeId,
+            userId: req.user._id,
+            userName: req.user.name || req.user.email,
             rating,
             comment,
         });
-        res.status(201).json(review);
+
+        res.status(201).json({ message: "Review added" });
+
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
-
-export default router;

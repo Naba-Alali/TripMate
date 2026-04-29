@@ -1,27 +1,67 @@
-const TRIPS_KEY = "tripmate_trips";
+const API = "http://localhost:3001/api";
 
-const getAllTrips = () => JSON.parse(localStorage.getItem(TRIPS_KEY) || "{}");
-const saveAllTrips = (data) => localStorage.setItem(TRIPS_KEY, JSON.stringify(data));
+const getToken = () => localStorage.getItem("tripmate_token");
 
-export const getUserTrips = (email) => {
-    const all = getAllTrips();
-    return all[email] || [];
-};
-
-export const saveUserTrip = (email, trip) => {
-    const all = getAllTrips();
-    const userTrips = all[email] || [];
-    const exists = userTrips.find(t => t.id === trip.id);
-    if (exists) {
-        all[email] = userTrips.map(t => t.id === trip.id ? { ...trip, role: "Organizer" } : t);
-    } else {
-        all[email] = [...userTrips, { ...trip, role: "Organizer", createdAt: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) }];
+export const getUserTrips = async () => {
+    try {
+        const res = await fetch(`${API}/trips`, {
+            headers: { Authorization: `Bearer ${getToken()}` },
+        });
+        const data = await res.json();
+        if (!res.ok) return [];
+        return data;
+    } catch (error) {
+        return [];
     }
-    saveAllTrips(all);
 };
 
-export const deleteUserTrip = (email, tripId) => {
-    const all = getAllTrips();
-    all[email] = (all[email] || []).filter(t => t.id !== tripId);
-    saveAllTrips(all);
+export const saveUserTrip = async (trip) => {
+    try {
+        if (trip._id) {
+            const res = await fetch(`${API}/trips/${trip._id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                body: JSON.stringify({
+                    name: trip.name,
+                    destination: trip.city || trip.destination,
+                    duration: trip.days || trip.duration,
+                    itinerary: trip.itinerary,
+                    members: trip.members,
+                }),
+            });
+            return await res.json();
+        }
+        const res = await fetch(`${API}/trips`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getToken()}`,
+            },
+            body: JSON.stringify({
+                name: trip.name,
+                destination: trip.city || trip.destination,
+                duration: trip.days || trip.duration,
+                itinerary: trip.itinerary,
+                members: trip.members,
+            }),
+        });
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const deleteUserTrip = async (tripId) => {
+    try {
+        await fetch(`${API}/trips/${tripId}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${getToken()}` },
+        });
+    } catch (error) {
+        console.error(error);
+    }
 };

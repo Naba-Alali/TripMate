@@ -18,14 +18,14 @@ router.get("/", async (req, res) => {
 
 // POST /api/trips
 router.post("/", async (req, res) => {
-    const { name, destination, duration, itinerary, members } = req.body;
+    const { name, destination, duration, itinerary, members, city, days } = req.body;
     try {
         const trip = await Trip.create({
             userId: req.user.id,
             name,
-            destination,
-            duration,
-            itinerary: itinerary || [],
+            destination: destination || city,
+            duration: duration || days,
+            itinerary: itinerary || {},
             members: members || [],
         });
         res.status(201).json(trip);

@@ -1,26 +1,19 @@
 import mongoose from "mongoose";
 
 const placeSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-        enum: ["Riyadh", "Jeddah", "Abha", "AlUla", "AlHassa"],
-    },
+    name: String,
     description: String,
-    category: {
-        type: String,
-        enum: ["landmark", "food", "nature", "shopping", "entertainment"],
-    },
+    image: String,
+    category: String,
+
     rating: {
         type: Number,
-        min: 0,
-        max: 5,
+        default: 0,
     },
-    image: String,
+    numReviews: {
+        type: Number,
+        default: 0,
+    }
 });
 
 const Place = mongoose.model("Place", placeSchema);
