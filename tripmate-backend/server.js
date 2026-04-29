@@ -20,6 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/places", placesRoutes);
+app.use("/api/trips", tripRoutes);
 
 
 const PORT = process.env.PORT || 5000;
@@ -27,5 +29,3 @@ app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
 
-app.use("/api/places", placesRoutes);
-app.use("/api/trips", tripRoutes);

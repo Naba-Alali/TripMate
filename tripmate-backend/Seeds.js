@@ -21,11 +21,9 @@ const places = [
     { city: "AlUla", name: "SomeWhere", description: "A popular restaurant known for its unique Mediterranean-inspired dishes and beautiful outdoor seating.", category: "food", rating: 4.6, image: "somewhereResturant.jpg" },
     { city: "AlUla", name: "Marayeh social", description: "Located on the rooftop of the Maraya building, offering a menu created by a Michelin-starred chef.", category: "food", rating: 4.8, image: "MarayaSocial.webp" },
     { city: "Riyadh", name: "Al Maigliah", description: "A major traditional wholesale hub in downtown Riyadh, famous for authentic thobes, perfumes, and textiles.", category: "shopping", rating: 4.4, image: "almaigliaah.webp" },
-<<<<<<< HEAD
-    { city: "Riyadh", name: "North Yard", description: "A chic destination in Al Malqa blending modern design with upscale cafes and lifestyle boutiques.", category: "shopping", rating: 4.5, image: "northyard.webp" },{ city: "Riyadh", name: "Chotto Matte", description: "A vibrant Nikkei restaurant in KAFD combining the bold flavors of Peru with Japanese precision.", category: "food", rating: 4.7, image: "Chotto.jpg" },
-=======
+    { city: "Riyadh", name: "North Yard", description: "A chic destination in Al Malqa blending modern design with upscale cafes and lifestyle boutiques.", category: "shopping", rating: 4.5, image: "northyard.webp" },
+    { city: "Riyadh", name: "Chotto Matte", description: "A vibrant Nikkei restaurant in KAFD combining the bold flavors of Peru with Japanese precision.", category: "food", rating: 4.7, image: "Chotto.jpg" },
     { city: "Riyadh", name: "North Yard", description: "A chic destination in Al Malqa blending modern design with upscale cafes and lifestyle boutiques.", category: "shopping", rating: 4.5, image: "northyard.webp" },{ id: 19, city: "Riyadh", name: "Chotto Matte", description: "A vibrant Nikkei restaurant in KAFD combining the bold flavors of Peru with Japanese precision.", category: "food", rating: 4.7, image: "Chotto.jpg" },
->>>>>>> e0e2db42c885daa216cbe64dfeb5873124ef1c66
     { city: "Riyadh", name: "Tokyo", description: "One of the city's first Japanese restaurants, recently revamped with stunning modern interiors and fusion cuisine.", category: "food", rating: 4.6, image: "tokyoRes.jpg" },
     { city: "Riyadh", name: "Les Deux Magots", description: "The Riyadh branch of the legendary Parisian cafe, offering a historic literary atmosphere and French classics.", category: "food", rating: 4.5, image: "LesDeuxMagots.jpg" },
     { city: "Riyadh", name: "Em Sherif", description: "A luxurious Lebanese fine-dining experience known for its spectacular menu and elegant setting.", category: "food", rating: 4.8, image: "emsherif.jpg" },
