@@ -164,7 +164,7 @@ Make sure you have the following installed:
 
 - The landing page is shown on first visit.
 - Click **Get Started** to go to the Sign Up page, or **Log In** if you already have an account.
-- Click **Continue as Guest** to browse the app without an account. Plan Trip and Explore will be hidden in guest mode.
+- Click **Continue as Guest** to browse the app without an account. Plan Trip will be hidden in guest mode.
 
 ### Signing Up
 
