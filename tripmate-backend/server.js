@@ -6,7 +6,9 @@ import authRoutes from "./routes/auth.js";
 import placesRoutes from "./routes/places.routes.js";
 import tripRoutes from "./routes/trips.routes.js";
 import reviewRoutes from "./routes/reviews.routes.js";
-// ...
+import adminRoutes from "./routes/admin.routes.js";
+
+
 
 dotenv.config();
 
@@ -25,6 +27,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/places", placesRoutes);
 app.use("/api/trips", tripRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/admin", adminRoutes);
 
 
 const PORT = process.env.PORT || 5000;
