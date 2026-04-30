@@ -8,6 +8,8 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
     const [photos, setPhotos] = useState([]);
     const [location, setLocation] = useState("Detecting location...");
     const [trips, setTrips] = useState([]);
+    const [editMode, setEditMode] = useState(false);
+    const [newEmail, setNewEmail] = useState(user?.email || "");
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -40,6 +42,28 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
         );
     }, []);
 
+    const handleUpdateEmail = async () => {
+        try {
+            const res = await fetch("http://localhost:3001/api/auth/update-email", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("tripmate_token")}`,
+                },
+                body: JSON.stringify({ email: newEmail }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setUser({ ...user, email: newEmail });
+                setEditMode(false);
+            } else {
+                alert(data.message);
+            }
+        } catch {
+            alert("Server error.");
+        }
+    };
+
     const name = user?.name || "Traveler";
     const joinedLabel = user?.joinedAt
         ? new Date(user.joinedAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
@@ -62,14 +86,14 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                     <h1 className="profile-header__name">{name}</h1>
                     <div className="profile-header__meta">
                         <span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
                                 <circle cx="12" cy="9" r="2.5"/>
                             </svg>
                             {location}
                         </span>
                         <span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                 <rect x="3" y="4" width="18" height="18" rx="2"/>
                                 <line x1="16" y1="2" x2="16" y2="6"/>
                                 <line x1="8" y1="2" x2="8" y2="6"/>
@@ -77,10 +101,35 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                             </svg>
                             Joined {joinedLabel}
                         </span>
+                        <span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,12 2,6"/>
+                            </svg>
+                            {user?.email}
+                        </span>
                     </div>
+
                     <p className="profile-header__bio">
                         Travel enthusiast and adventure seeker. Always planning the next trip!
                     </p>
+
+                    {editMode ? (
+                        <div style={{ marginTop: "10px", display: "flex", gap: "8px" }}>
+                            <input
+                                type="email"
+                                value={newEmail}
+                                onChange={(e) => setNewEmail(e.target.value)}
+                                style={{ padding: "8px", borderRadius: "8px", border: "1px solid #ccc" }}
+                            />
+                            <button onClick={handleUpdateEmail} style={{ padding: "8px 16px", backgroundColor: "#1a6fb5", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" }}>Save</button>
+                            <button onClick={() => setEditMode(false)} style={{ padding: "8px 16px", backgroundColor: "#ccc", border: "none", borderRadius: "8px", cursor: "pointer" }}>Cancel</button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setEditMode(true)} style={{ marginTop: "10px", padding: "8px 16px", backgroundColor: "#1a6fb5", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+                            Edit Profile
+                        </button>
+                    )}
                 </div>
             </div>
 
