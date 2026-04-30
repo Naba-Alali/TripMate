@@ -10,6 +10,31 @@ import { saveUserTrip, deleteUserTrip } from "../utils/trips";
 import "../styles/createTrip.css";
 import { checkEmailExists } from "../utils/auth";
 
+const API = "http://localhost:3001/api";
+const getToken = () => localStorage.getItem("tripmate_token");
+
+const saveTripToDB = async (trip) => {
+    if (!trip?._id) return;
+    try {
+        await fetch(`${API}/trips/${trip._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${getToken()}`,
+            },
+            body: JSON.stringify({
+                name: trip.name,
+                destination: trip.city,
+                duration: trip.days,
+                itinerary: trip.itinerary,
+                members: trip.members,
+            }),
+        });
+    } catch {
+        console.error("Failed to save trip");
+    }
+};
+
 function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     const [tripName, setTripName] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
@@ -25,8 +50,8 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     useEffect(() => {
         const fetchPlaces = async () => {
             try {
-                const res = await fetch("http://localhost:3001/api/places", {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("tripmate_token")}` },
+                const res = await fetch(`${API}/places`, {
+                    headers: { Authorization: `Bearer ${getToken()}` },
                 });
                 const data = await res.json();
                 setPlacesData(Array.isArray(data) ? data : []);
@@ -35,6 +60,29 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
             }
         };
         fetchPlaces();
+    }, []);
+
+    useEffect(() => {
+        const fetchTrips = async () => {
+            try {
+                const res = await fetch(`${API}/trips`, {
+                    headers: { Authorization: `Bearer ${getToken()}` },
+                });
+                const data = await res.json();
+                if (Array.isArray(data)) {
+                    const formatted = data.map(t => ({
+                        ...t,
+                        id: t._id,
+                        city: t.destination,
+                        days: t.duration,
+                    }));
+                    setTrips(formatted);
+                }
+            } catch {
+                console.error("Failed to fetch trips");
+            }
+        };
+        fetchTrips();
     }, []);
 
     const activeTrip = trips.find(t => t.id === activeTripId);
@@ -82,36 +130,46 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
         }
         setPlaceError("");
 
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                const currentDayPlaces = trip.itinerary[activeDay] || [];
-                if (currentDayPlaces.find(p => p._id === place._id)) return trip;
-
-                return {
-                    ...trip,
-                    itinerary: {
-                        ...trip.itinerary,
-                        [activeDay]: [...currentDayPlaces, place]
-                    }
-                };
-            }
-            return trip;
-        }));
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    const currentDayPlaces = trip.itinerary[activeDay] || [];
+                    if (currentDayPlaces.find(p => p._id === place._id)) return trip;
+                    return {
+                        ...trip,
+                        itinerary: {
+                            ...trip.itinerary,
+                            [activeDay]: [...currentDayPlaces, place]
+                        }
+                    };
+                }
+                return trip;
+            });
+            // حفظ في DB
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     const handleRemovePlace = (day, placeId) => {
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                return {
-                    ...trip,
-                    itinerary: {
-                        ...trip.itinerary,
-                        [day]: trip.itinerary[day].filter(p => p._id !== placeId)
-                    }
-                };
-            }
-            return trip;
-        }));
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    return {
+                        ...trip,
+                        itinerary: {
+                            ...trip.itinerary,
+                            [day]: trip.itinerary[day].filter(p => p._id !== placeId)
+                        }
+                    };
+                }
+                return trip;
+            });
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     const handleAddMember = async (newMember) => {
@@ -124,21 +182,31 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
             return false;
         }
 
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                return { ...trip, members: [...trip.members, { ...newMember, id: Date.now(), role: "Member" }] };
-            }
-            return trip;
-        }));
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    return { ...trip, members: [...trip.members, { ...newMember, id: Date.now(), role: "Member" }] };
+                }
+                return trip;
+            });
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     const handleRemoveMember = (memberId) => {
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                return { ...trip, members: trip.members.filter(m => m.id !== memberId) };
-            }
-            return trip;
-        }));
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    return { ...trip, members: trip.members.filter(m => m.id !== memberId) };
+                }
+                return trip;
+            });
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     const normalize = (str = "") => str.trim().toLowerCase().replace(/\s+/g, "");
@@ -166,19 +234,24 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     const handleAddDay = () => {
         if (!activeTrip || activeTrip.days >= 12) return;
 
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                return {
-                    ...trip,
-                    days: trip.days + 1,
-                    itinerary: {
-                        ...trip.itinerary,
-                        [trip.days + 1]: []
-                    }
-                };
-            }
-            return trip;
-        }));
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    return {
+                        ...trip,
+                        days: trip.days + 1,
+                        itinerary: {
+                            ...trip.itinerary,
+                            [trip.days + 1]: []
+                        }
+                    };
+                }
+                return trip;
+            });
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     const handleRemoveDay = (dayToRemove) => {
@@ -186,23 +259,28 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
 
         if (activeDay === dayToRemove) setActiveDay(1);
 
-        setTrips(prevTrips => prevTrips.map(trip => {
-            if (trip.id === activeTripId) {
-                const updatedItinerary = {};
-                let newDayNumber = 1;
-                for (let i = 1; i <= trip.days; i++) {
-                    if (i === dayToRemove) continue;
-                    updatedItinerary[newDayNumber] = trip.itinerary[i] || [];
-                    newDayNumber++;
+        setTrips(prevTrips => {
+            const updated = prevTrips.map(trip => {
+                if (trip.id === activeTripId) {
+                    const updatedItinerary = {};
+                    let newDayNumber = 1;
+                    for (let i = 1; i <= trip.days; i++) {
+                        if (i === dayToRemove) continue;
+                        updatedItinerary[newDayNumber] = trip.itinerary[i] || [];
+                        newDayNumber++;
+                    }
+                    return {
+                        ...trip,
+                        days: trip.days - 1,
+                        itinerary: updatedItinerary
+                    };
                 }
-                return {
-                    ...trip,
-                    days: trip.days - 1,
-                    itinerary: updatedItinerary
-                };
-            }
-            return trip;
-        }));
+                return trip;
+            });
+            const updatedTrip = updated.find(t => t.id === activeTripId);
+            saveTripToDB(updatedTrip);
+            return updated;
+        });
     };
 
     return (
