@@ -3,6 +3,9 @@ import Navbar from "../components/Navbar";
 import { getUserTrips } from "../utils/trips";
 import "../styles/profile.css";
 
+const API = "http://localhost:3001/api";
+const getToken = () => localStorage.getItem("tripmate_token");
+
 function Profile({ onNavigate, user, currentPage, setUser }) {
     const [activeTab, setActiveTab] = useState("trips");
     const [photos, setPhotos] = useState([]);
@@ -17,6 +20,21 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
             setTrips(Array.isArray(data) ? data : []);
         };
         if (user) fetchTrips();
+    }, [user]);
+
+    useEffect(() => {
+        const fetchPhotos = async () => {
+            try {
+                const res = await fetch(`${API}/auth/photos`, {
+                    headers: { Authorization: `Bearer ${getToken()}` },
+                });
+                const data = await res.json();
+                setPhotos(Array.isArray(data) ? data : []);
+            } catch {
+                setPhotos([]);
+            }
+        };
+        if (user) fetchPhotos();
     }, [user]);
 
     useEffect(() => {
@@ -44,11 +62,11 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
 
     const handleUpdateEmail = async () => {
         try {
-            const res = await fetch("http://localhost:3001/api/auth/update-email", {
+            const res = await fetch(`${API}/auth/update-email`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("tripmate_token")}`,
+                    Authorization: `Bearer ${getToken()}`,
                 },
                 body: JSON.stringify({ email: newEmail }),
             });
@@ -64,23 +82,40 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
         }
     };
 
+    const handlePhotoChange = async (e) => {
+        const files = Array.from(e.target.files);
+        for (const file of files) {
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const base64 = reader.result;
+                setPhotos(prev => [...prev, base64]);
+                try {
+                    await fetch(`${API}/auth/photos`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${getToken()}`,
+                        },
+                        body: JSON.stringify({ photo: base64 }),
+                    });
+                } catch {
+                    console.error("Failed to save photo");
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+        e.target.value = "";
+    };
+
     const name = user?.name || "Traveler";
     const joinedLabel = user?.joinedAt
         ? new Date(user.joinedAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
         : "Recently";
 
-    const handlePhotoChange = (e) => {
-        const files = Array.from(e.target.files);
-        const urls = files.map(file => URL.createObjectURL(file));
-        setPhotos(prev => [...prev, ...urls]);
-        e.target.value = "";
-    };
-
     return (
         <div className="profile-page">
             <Navbar onNavigate={onNavigate} user={user} currentPage={currentPage} setUser={setUser} />
 
-            {/* Header */}
             <div className="profile-header">
                 <div className="profile-header__content">
                     <h1 className="profile-header__name">{name}</h1>
@@ -134,7 +169,6 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
             </div>
 
             <div className="profile-body">
-                {/* Stats */}
                 <div className="profile-stats">
                     <div className="stat-card">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -158,24 +192,12 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                     </div>
                 </div>
 
-                {/* Tabs */}
                 <div className="profile-tabs">
-                    <button
-                        className={`profile-tab ${activeTab === "trips" ? "profile-tab--active" : ""}`}
-                        onClick={() => setActiveTab("trips")}
-                    >
-                        Trips
-                    </button>
-                    <button
-                        className={`profile-tab ${activeTab === "photos" ? "profile-tab--active" : ""}`}
-                        onClick={() => setActiveTab("photos")}
-                    >
-                        Photos
-                    </button>
+                    <button className={`profile-tab ${activeTab === "trips" ? "profile-tab--active" : ""}`} onClick={() => setActiveTab("trips")}>Trips</button>
+                    <button className={`profile-tab ${activeTab === "photos" ? "profile-tab--active" : ""}`} onClick={() => setActiveTab("photos")}>Photos</button>
                 </div>
                 <div className="profile-tabs__divider" />
 
-                {/* Trips Tab */}
                 {activeTab === "trips" && (
                     <div className="profile-trips">
                         <h2 className="profile-section-title">Recent Trips</h2>
@@ -204,7 +226,6 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                     </div>
                 )}
 
-                {/* Photos Tab */}
                 {activeTab === "photos" && (
                     <div className="profile-photos">
                         {photos.length === 0 ? (

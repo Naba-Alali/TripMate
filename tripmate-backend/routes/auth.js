@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { protect } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
@@ -78,6 +79,44 @@ router.get("/check-email", async (req, res) => {
             return res.status(404).json({ exists: false, message: "No account found with this email." });
         }
         res.json({ exists: true, name: user.fullName, email: user.email });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+// PUT /api/auth/update-email
+router.put("/update-email", protect, async (req, res) => {
+    const { email } = req.body;
+    try {
+        const exists = await User.findOne({ email: email.toLowerCase(), _id: { $ne: req.user.id } });
+        if (exists) return res.status(400).json({ message: "Email already in use." });
+        await User.findByIdAndUpdate(req.user.id, { email: email.toLowerCase() });
+        res.json({ success: true, message: "Email updated." });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+// POST /api/auth/photos
+router.post("/photos", protect, async (req, res) => {
+    const { photo } = req.body; // base64 string
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            { $push: { photos: photo } },
+            { new: true }
+        );
+        res.json({ success: true, photos: user.photos });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// GET /api/auth/photos
+router.get("/photos", protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("photos");
+        res.json(user.photos || []);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
