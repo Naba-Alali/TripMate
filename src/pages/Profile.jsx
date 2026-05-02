@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { getUserTrips } from "../utils/trips";
 import "../styles/profile.css";
 
-const API = "https://tripmate-ctqk.onrender.com";
+const API = "https://tripmate-ctqk.onrender.com/api";
 const getToken = () => localStorage.getItem("tripmate_token");
 
 function Profile({ onNavigate, user, currentPage, setUser }) {

@@ -1,4 +1,4 @@
-const API = "https://tripmate-ctqk.onrender.com";
+const API = "https://tripmate-ctqk.onrender.com/api";
 
 const getToken = () => localStorage.getItem("tripmate_token");
 

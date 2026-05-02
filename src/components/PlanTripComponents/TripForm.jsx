@@ -8,7 +8,7 @@ function TripForm({ tripName, setTripName, selectedCity, setSelectedCity, numDay
     useEffect(() => {
         const fetchCities = async () => {
             try {
-                const res = await fetch("https://tripmate-ctqk.onrender.com/admin/cities-list");
+                const res = await fetch("https://tripmate-ctqk.onrender.com/api/admin/cities-list");
                 const data = await res.json();
                 setCities(Array.isArray(data) ? data.map(c => c.name) : []);
             } catch {
