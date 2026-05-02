@@ -2,7 +2,7 @@ import express from "express";
 import User from "../models/User.js";
 import City from "../models/City.js";
 import Place from "../models/Place.js";
-import Report from "../models/Report.js";
+import Report from "../models/Reports.js";
 import { protect, adminOnly } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
