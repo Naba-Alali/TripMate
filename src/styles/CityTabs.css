@@ -28,3 +28,14 @@
     color: var(--white);
     border-color: var(--primary-blue);
 }
+@media (max-width: 600px) {
+  .city-tabs {
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .city-tabs__btn {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}

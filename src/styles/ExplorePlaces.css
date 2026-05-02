@@ -110,3 +110,40 @@
         flex: 1 1 100%; /* Search bar takes full width on mobile/tablet */
     }
 }
+@media (max-width: 600px) {
+  .explore-page {
+    padding: 24px 12px;
+  }
+
+  .explore-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .explore-controls {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .explore-search {
+    width: 100%;
+    flex: 1 1 100%;
+    min-width: 0;
+    padding: 10px 14px;
+  }
+
+  .places-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .explore-empty {
+    padding: 48px 0;
+  }
+
+  .explore-empty__text {
+    font-size: 15px;
+    text-align: center;
+  }
+}
