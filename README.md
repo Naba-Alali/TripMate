@@ -222,6 +222,7 @@ Create a `.env` file in the `tripmate-backend` folder with the following variabl
 ## API Documentation
 
 Base URL: `http://localhost:3001/api`
+> NOTE: tests were not implemented due to time constraints, but the API routes are fully functional and can be tested using tools like Postman (the one we used).
  
 ---
 
