@@ -1,31 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import '../../styles/CityTabs.css';
 
-const cities = [
-  { id: "All", label: "All" },
-  { id: "Riyadh", label: "Riyadh" },
-  { id: "Jeddah", label: "Jeddah" },
-  { id: "Abha", label: "Abha" },
-  { id: "AlUla", label: "AlUla" },
-  { id: "AlHassa", label: "AlHassa" },
-];
+const API = "http://localhost:3001/api";
 
 function CityTabs({ selected, onSelect }) {
-  return (
-    <div className="city-tabs">
-      {cities.map((city) => (
-        <button
-          key={city.id}
-          onClick={() => onSelect(city.id)}
-          className={`city-tabs__btn ${
-            selected === city.id ? "city-tabs__btn--active" : ""
-          }`}
-        >
-          {city.label}
-        </button>
-      ))}
-    </div>
-  );
+    const [cities, setCities] = useState([{ id: "All", label: "All" }]);
+
+    useEffect(() => {
+        const fetchCities = async () => {
+            try {
+                const res = await fetch(`http://localhost:3001/api/admin/cities-list`);
+const data = await res.json();
+if (Array.isArray(data)) {
+    const cityList = [
+        { id: "All", label: "All" },
+        ...data.map(c => ({ id: c.name, label: c.name }))
+    ];
+    setCities(cityList);
+}
+            } catch {
+                setCities([{ id: "All", label: "All" }]);
+            }
+        };
+        fetchCities();
+    }, []);
+
+    return (
+        <div className="city-tabs">
+            {cities.map((city) => (
+                <button
+                    key={city.id}
+                    onClick={() => onSelect(city.id)}
+                    className={`city-tabs__btn ${selected === city.id ? "city-tabs__btn--active" : ""}`}
+                >
+                    {city.label}
+                </button>
+            ))}
+        </div>
+    );
 }
 
 export default CityTabs;

@@ -1,8 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Place from "./models/Place.js";
+import City from "./models/City.js";
 
 dotenv.config();
+
+const cities = ["AlHassa", "Jeddah", "Abha", "AlUla", "Riyadh"];
+
 const places = [
     { city: "AlHassa", name: "Jabal Al-Qara", description: "Ancient limestone mountain with caves and tunnels", category: "nature", rating: 4.8, image: "Jabal-Alqara.jpg" },
     { city: "AlHassa", name: "Flavors restaurant", description: "A popular dining spot in Al Hassa serving a wide variety of delicious local and international dishes.", category: "food", rating: 4.6, image: "flavors-restaurant.jpg" },
@@ -42,7 +46,12 @@ const seed = async () => {
         await Place.deleteMany();
         await Place.insertMany(places);
 
+        await City.deleteMany();
+        await City.insertMany(cities.map(name => ({ name })));
+
         console.log(`${places.length} places inserted ✅`);
+        console.log(`${cities.length} cities inserted ✅`);
+
         process.exit();
     } catch (error) {
         console.error(error.message);
