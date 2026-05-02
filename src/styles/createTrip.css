@@ -592,3 +592,76 @@
         font-size: 14px;
     }
 }
+
+@media (max-width: 600px) {
+  .create-trip-page {
+    padding: 18px 12px;
+  }
+
+  .create-trip-title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .trip-form {
+    padding: 16px 14px;
+  }
+
+  .trip-form__input,
+  .trip-form__select,
+  .member-panel__input {
+    width: 100%;
+  }
+
+  .day-tabs-wrapper {
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .day-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .day-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .day-tabs__item {
+    flex-shrink: 0;
+  }
+
+  .day-tabs__btn {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .day-tabs__control-btn {
+    width: 100%;
+  }
+
+  .itinerary-panel,
+  .member-panel {
+    padding: 16px 14px;
+  }
+
+  .itinerary-panel__item {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .itinerary-panel__item span {
+    flex: 1;
+    line-height: 1.4;
+  }
+
+  .trip-tab-row {
+    align-items: stretch;
+  }
+
+  .main-create-btn {
+    width: 100%;
+    padding: 13px 18px;
+  }
+}

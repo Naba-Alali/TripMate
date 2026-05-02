@@ -388,3 +388,54 @@
     width: 18px;
     height: 18px;
 }
+
+@media (max-width: 600px) {
+  .auth-content {
+    align-items: flex-start;
+    padding: 16px 12px;
+  }
+
+  .auth-card {
+    padding: 24px 18px;
+    max-width: 100%;
+    border-radius: 14px;
+  }
+
+  .auth-title {
+    font-size: 1.35rem;
+    margin-bottom: 24px;
+  }
+
+  .auth-title--left {
+    font-size: 1.3rem;
+  }
+
+  .auth-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .role-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .role-card {
+    padding: 16px 14px;
+  }
+
+  .auth-banner {
+    align-items: flex-start;
+    padding: 12px 14px;
+    font-size: 0.82rem;
+  }
+
+  .auth-btn-primary,
+  .auth-btn-google {
+    font-size: 0.92rem;
+    padding: 13px;
+  }
+
+  .auth-footer {
+    font-size: 0.82rem;
+  }
+}

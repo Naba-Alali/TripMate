@@ -567,3 +567,111 @@
     color: var(--text-muted);
     font-size: 0.82rem;
 }
+@media (max-width: 700px) {
+  .profile-header {
+    padding: 32px 16px;
+  }
+
+  .profile-header__name {
+    font-size: 1.7rem;
+  }
+
+  .profile-header__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .profile-body {
+    padding: 24px 16px;
+  }
+
+  .profile-stats {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .profile-tabs {
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .profile-tab {
+    flex-shrink: 0;
+  }
+
+  .trip-item {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .trip-item__left {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .trip-item__name {
+    line-height: 1.35;
+  }
+
+  .trip-item__right {
+    flex-shrink: 0;
+    gap: 6px;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-item {
+    height: 190px;
+  }
+
+  .photo-delete-btn {
+    opacity: 1;
+  }
+
+  .photo-add {
+    padding: 40px 16px;
+  }
+
+  .confirm-modal {
+    padding: 24px 18px;
+  }
+
+  .confirm-modal__actions {
+    flex-direction: column;
+  }
+
+  .confirm-modal__cancel,
+  .confirm-modal__confirm {
+    width: 100%;
+  }
+
+  .trip-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .trip-modal {
+    max-width: 100%;
+    max-height: 88vh;
+    border-radius: 20px 20px 0 0;
+    padding: 24px 16px;
+  }
+
+  .trip-modal__title {
+    font-size: 1.2rem;
+  }
+
+  .trip-modal__members li {
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
