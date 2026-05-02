@@ -24,4 +24,5 @@ body {
     font-family: sans-serif;
     background-color: var(--off-white);
     color: var(--text-dark);
+    overflow-x: hidden;
 }
