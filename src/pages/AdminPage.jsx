@@ -43,7 +43,7 @@ function AdminPage({ onNavigate, user, currentPage, setUser, isGuest }) {
                     headers: { Authorization: `Bearer ${getToken()}` },
                 });
                 const data = await res.json();
-                setCities(Array.isArray(data) ? data.map((c, i) => ({ id: i + 1, name: c.name })) : []);
+                setCities(Array.isArray(data) ? data.map((c) => ({ _id: c._id, id: c._id, name: c.name })) : []);
             } catch {
                 setCities([]);
             }
