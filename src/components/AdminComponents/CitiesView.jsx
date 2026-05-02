@@ -68,14 +68,22 @@ function CitiesView({ cities = [], places = [], onAddCity, onEditCity, onDeleteC
         if (!confirmed) return;
 
         try {
-            const res = await fetch(`${API}/admin/cities/${city._id || city.id}`, {
+            const res = await fetch(`${API}/admin/cities/${city._id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
-            if (!res.ok) { alert("Failed to delete."); return; }
-            onDeleteCity(city.name);
+
+            if (!res.ok) {
+                const err = await res.json();
+                console.log(err);
+                alert("Failed to delete.");
+                return;
+            }
+
+            onDeleteCity(city._id);
             showMessage("City deleted successfully.");
-        } catch {
+        } catch (err) {
+            console.error(err);
             alert("Server error.");
         }
     };
