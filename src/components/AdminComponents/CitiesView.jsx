@@ -64,6 +64,8 @@ function CitiesView({ cities = [], places = [], onAddCity, onEditCity, onDeleteC
     };
 
     const handleDelete = async (city) => {
+        console.log("Deleting city:", city);
+
         const confirmed = window.confirm(`Are you sure you want to delete "${city.name}"?`);
         if (!confirmed) return;
 
@@ -74,14 +76,15 @@ function CitiesView({ cities = [], places = [], onAddCity, onEditCity, onDeleteC
             });
 
             if (!res.ok) {
-                const err = await res.json();
-                console.log(err);
+                const text = await res.text(); // بدل json
+                console.log("Server error:", text);
                 alert("Failed to delete.");
                 return;
             }
 
             onDeleteCity(city._id);
             showMessage("City deleted successfully.");
+
         } catch (err) {
             console.error(err);
             alert("Server error.");
