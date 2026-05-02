@@ -9,8 +9,19 @@ router.use(protect);
 // GET /api/trips
 router.get("/", async (req, res) => {
     try {
-        const trips = await Trip.find({ userId: req.user.id }).sort({ createdAt: -1 });
-        res.json(trips);
+        const ownTrips = await Trip.find({ userId: req.user.id }).sort({ createdAt: -1 });
+
+        const memberTrips = await Trip.find({
+            "members.email": req.user.email,
+            userId: { $ne: req.user.id } // مو organizer
+        }).sort({ createdAt: -1 });
+
+        const allTrips = [
+            ...ownTrips.map(t => ({ ...t.toObject(), userRole: "Organizer" })),
+            ...memberTrips.map(t => ({ ...t.toObject(), userRole: "Member" }))
+        ];
+
+        res.json(allTrips);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -37,7 +48,14 @@ router.post("/", async (req, res) => {
 // PUT /api/trips/:id
 router.put("/:id", async (req, res) => {
     try {
-        const trip = await Trip.findOne({ _id: req.params.id, userId: req.user.id });
+        // allow owner OR member to update
+        const trip = await Trip.findOne({
+            _id: req.params.id,
+            $or: [
+                { userId: req.user.id },
+                { "members.email": req.user.email }
+            ]
+        });
         if (!trip) {
             return res.status(404).json({ message: "Trip not found." });
         }

@@ -184,6 +184,12 @@
     white-space: nowrap;
 }
 
+.trip-item__badge--member {
+    color: #b8860b;
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
 .trip-item__date {
     font-size: 0.85rem;
     color: var(--text-muted);

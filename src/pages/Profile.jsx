@@ -235,8 +235,10 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                                             <span className="trip-item__name">{trip.name} — {trip.destination}</span>
                                         </div>
                                         <div className="trip-item__right">
-                                            <span className="trip-item__badge">Organizer</span>
-                                            <span className="trip-item__date">
+                                        <span className={`trip-item__badge ${trip.userRole === "Member" ? "trip-item__badge--member" : ""}`}>
+                                            {trip.userRole || "Organizer"}
+                                        </span>
+                                        <span className="trip-item__date">
                                                 {new Date(trip.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                                             </span>
                                             <div className="trip-item__menu-wrap">
