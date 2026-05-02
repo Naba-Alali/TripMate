@@ -538,6 +538,7 @@
     .create-trip-subtitle {
         font-size: 14px;
     }
+    
 
     .trip-form {
         flex-direction: column;
@@ -565,20 +566,13 @@
 
     .create-trip-layout {
         flex-direction: column;
-    }
-
-    .create-trip-main {
-        order: 1;
         width: 100%;
     }
 
+    .create-trip-main,
     .create-trip-sidebar {
-        order: 2;
-        position: static;
         width: 100%;
-        border-top: 2px solid var(--divider);
-        padding-top: 20px;
-        margin-top: 8px;
+        min-width: 0; 
     }
 
     .place-cards-container {
@@ -637,4 +631,13 @@
         width: 100%;
         padding: 13px 18px;
     }
+}
+
+.create-trip-page {
+    min-height: 100vh;
+    background-color: var(--off-white);
+    padding: 40px 60px;
+    overflow-x: hidden; /* ← هذا يمنع الـ overflow */
+    max-width: 100vw;   /* ← يمنع الخروج من الشاشة */
+    box-sizing: border-box;
 }

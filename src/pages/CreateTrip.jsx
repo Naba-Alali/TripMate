@@ -289,7 +289,7 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
     };
 
     return (
-        <div>
+        <div style={{ overflowX: "hidden" }}>
             <Navbar onNavigate={onNavigate} user={user} currentPage={currentPage} setUser={setUser} />
             <div className="create-trip-page">
                 <h1 className="create-trip-title">Plan Your <span className="create-trip-title--highlight">Trip</span></h1>
