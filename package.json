@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm install && vite build",
+    "start": "node server.js",
     "lint": "eslint .",
     "preview": "vite preview"
+    
   },
   "dependencies": {
     "express": "^5.2.1",
