@@ -38,11 +38,11 @@ function ItineraryPanel({ tripName, itinerary, numDays, onRemove }) {
                         ) : (
                             <ul className="itinerary-panel__list">
                                 {places.map((place) => (
-                                    <li key={place.id} className="itinerary-panel__item">
+                                    <li key={place._id || place.id} className="itinerary-panel__item">
                                         <span>{place.name}</span>
                                         <button
                                             className="itinerary-panel__remove"
-                                            onClick={() => onRemove(day, place.id)}
+                                            onClick={() => onRemove(day, place._id || place.id)}
                                         >
                                             ✕
                                         </button>
