@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../../styles/CityTabs.css';
 
-const API = "http://localhost:3001/api";
+const API = "https://tripmate-ctqk.onrender.com/";
 
 function CityTabs({ selected, onSelect }) {
     const [cities, setCities] = useState([{ id: "All", label: "All" }]);
@@ -9,7 +9,7 @@ function CityTabs({ selected, onSelect }) {
     useEffect(() => {
         const fetchCities = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/api/admin/cities-list`);
+                const res = await fetch(`https://tripmate-ctqk.onrender.com/admin/cities-list`);
 const data = await res.json();
 if (Array.isArray(data)) {
     const cityList = [

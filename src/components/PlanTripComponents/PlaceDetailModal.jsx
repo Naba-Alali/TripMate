@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../../styles/PlaceDetailModal.css";
 
-const API = "http://localhost:3001/api";
+const API = "https://tripmate-ctqk.onrender.com/";
 const getToken = () => localStorage.getItem("tripmate_token");
 
 function PlaceDetailModal({ place, onClose, onAddToTrip, user, onRatingUpdate }) {

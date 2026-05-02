@@ -1,6 +1,6 @@
 import { useState } from "react";
  
-const API = "http://localhost:3001/api";
+const API = "https://tripmate-ctqk.onrender.com/";
 const getToken = () => localStorage.getItem("tripmate_token");
  
 function PlacesView({ places = [], cities = [], onAddPlace, onEditPlace, onDeletePlace }) {
