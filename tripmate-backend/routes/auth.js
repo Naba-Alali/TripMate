@@ -122,4 +122,24 @@ router.get("/photos", protect, async (req, res) => {
     }
 });
 
+// DELETE /api/auth/photos/:index
+router.delete("/photos/:index", protect, async (req, res) => {
+    const index = parseInt(req.params.index);
+    try {
+        const user = await User.findById(req.user.id).select("photos");
+        if (!user || index < 0 || index >= user.photos.length) {
+            return res.status(404).json({ message: "Photo not found." });
+        }
+        const photoToRemove = user.photos[index];
+        const updated = await User.findByIdAndUpdate(
+            req.user.id,
+            { $pull: { photos: photoToRemove } },
+            { new: true }
+        );
+        res.json({ success: true, photos: updated.photos });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 export default router;
