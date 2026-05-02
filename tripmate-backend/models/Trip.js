@@ -7,6 +7,7 @@ const memberSchema = new mongoose.Schema({
         type: String,
         default: "Member",
     },
+    id: Number,
 });
 
 const daySchema = new mongoose.Schema({

@@ -14,9 +14,13 @@ const API = "http://localhost:3001/api";
 const getToken = () => localStorage.getItem("tripmate_token");
 
 const saveTripToDB = async (trip) => {
-    if (!trip?._id) return;
+    if (!trip?._id) {
+        console.log("No _id found, skipping save");
+        return;
+    }
+    console.log("Saving trip to DB:", trip._id, "members:", trip.members);
     try {
-        await fetch(`${API}/trips/${trip._id}`, {
+        const res = await fetch(`${API}/trips/${trip._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -30,8 +34,10 @@ const saveTripToDB = async (trip) => {
                 members: trip.members,
             }),
         });
-    } catch {
-        console.error("Failed to save trip");
+        const data = await res.json();
+        console.log("Save response:", res.status, data);
+    } catch (err) {
+        console.error("Failed to save trip:", err);
     }
 };
 
@@ -145,7 +151,6 @@ function CreateTrip({ onNavigate, user, currentPage, setUser }) {
                 }
                 return trip;
             });
-            // حفظ في DB
             const updatedTrip = updated.find(t => t.id === activeTripId);
             saveTripToDB(updatedTrip);
             return updated;
