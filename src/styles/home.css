@@ -302,12 +302,9 @@
         padding: 16px 24px;
     }
 
+    /* الروابط تختفي وتنتقل للـ hamburger */
     .home-nav__links {
-        gap: 16px;
-    }
-
-    .home-nav__link-btn {
-        font-size: 0.88rem;
+        display: none;
     }
 
     .home-features__grid {
@@ -342,16 +339,6 @@
     .home-nav__logo {
         font-size: 1.05rem;
         flex-shrink: 0;
-    }
-
-    .home-nav__links {
-        gap: 10px;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .home-nav__link-btn {
-        font-size: 0.78rem;
     }
 
     .home-nav__right {

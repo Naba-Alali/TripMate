@@ -56,6 +56,7 @@ function Navbar({ onNavigate, user, currentPage, setUser, isGuest }) {
                 Trip Mate
             </button>
 
+            {/* الروابط تظهر على الديسكتوب فقط */}
             <ul className="home-nav__links">
                 {user && (
                     <li>
@@ -113,7 +114,8 @@ function Navbar({ onNavigate, user, currentPage, setUser, isGuest }) {
                     </button>
                 )}
 
-                {currentPage !== "home" && !isGuest && (
+                {/* الهامبرغر يظهر دايماً مو بس خارج home */}
+                {!isGuest && (
                     <div className="nav-menu" ref={menuRef}>
                         <button
                             className="nav-menu__trigger"
@@ -126,6 +128,43 @@ function Navbar({ onNavigate, user, currentPage, setUser, isGuest }) {
 
                         {menuOpen && (
                             <div className="nav-menu__dropdown">
+                                <button
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        onNavigate("explore");
+                                    }}
+                                >
+                                    Explore
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        onNavigate("trip");
+                                    }}
+                                >
+                                    Plan Trip
+                                </button>
+                                {user && (
+                                    <button
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            onNavigate("profile");
+                                        }}
+                                    >
+                                        Profile
+                                    </button>
+                                )}
+                                {user?.role === "Admin" && (
+                                    <button
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            onNavigate("admin");
+                                        }}
+                                    >
+                                        Admin
+                                    </button>
+                                )}
+                                <hr style={{ border: "none", borderTop: "1px solid var(--divider)", margin: "4px 0" }} />
                                 {user ? (
                                     <button onClick={handleSignOut}>Sign out</button>
                                 ) : (
