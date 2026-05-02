@@ -42,7 +42,7 @@ function ItineraryPanel({ tripName, itinerary, numDays, onRemove }) {
                                         <span>{place.name}</span>
                                         <button
                                             className="itinerary-panel__remove"
-                                            onClick={() => onRemove(day, place.id)}
+                                            onClick={() => onRemove(day, place._id || place.id)}
                                         >
                                             ✕
                                         </button>
