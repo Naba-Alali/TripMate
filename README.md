@@ -146,6 +146,10 @@ Make sure you have the following installed:
 - [npm](https://www.npmjs.com/) 
 - A [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account
 
+### Deployment 
+Render is used for deployment, and the app is live at: https://tripmate-1-mc1w.onrender.com/
+> Note: please use https://tripmate-1-mc1w.onrender.com/ to run the app, as the backend is configured to work with this URL. Running locally will require updating the API base URL in the frontend code to `http://localhost:3001/api`.
+
 ### Front-end Steps
 
 1. **Clone the repository**
