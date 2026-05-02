@@ -13,6 +13,9 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
     const [trips, setTrips] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [newEmail, setNewEmail] = useState(user?.email || "");
+    const [selectedTrip, setSelectedTrip] = useState(null);
+    const [openMenuId, setOpenMenuId] = useState(null);
+    const [photoToDelete, setPhotoToDelete] = useState(null);
 
     useEffect(() => {
         const fetchTrips = async () => {
@@ -28,10 +31,11 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                 const res = await fetch(`${API}/auth/photos`, {
                     headers: { Authorization: `Bearer ${getToken()}` },
                 });
+                if (!res.ok) return;
                 const data = await res.json();
-                setPhotos(Array.isArray(data) ? data : []);
+                if (Array.isArray(data)) setPhotos(data);
             } catch {
-                setPhotos([]);
+                // network error — leave photos as empty
             }
         };
         if (user) fetchPhotos();
@@ -82,6 +86,18 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
         }
     };
 
+    const handleDeletePhoto = async (index) => {
+        try {
+            await fetch(`${API}/auth/photos/${index}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${getToken()}` },
+            });
+            setPhotos(prev => prev.filter((_, i) => i !== index));
+        } catch {
+            console.error("Failed to delete photo");
+        }
+    };
+
     const handlePhotoChange = async (e) => {
         const files = Array.from(e.target.files);
         for (const file of files) {
@@ -90,7 +106,7 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                 const base64 = reader.result;
                 setPhotos(prev => [...prev, base64]);
                 try {
-                    await fetch(`${API}/auth/photos`, {
+                    const res = await fetch(`${API}/auth/photos`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -98,8 +114,13 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                         },
                         body: JSON.stringify({ photo: base64 }),
                     });
+                    if (!res.ok) {
+                        console.error("Failed to save photo to DB");
+                        setPhotos(prev => prev.filter(p => p !== base64));
+                    }
                 } catch {
                     console.error("Failed to save photo");
+                    setPhotos(prev => prev.filter(p => p !== base64));
                 }
             };
             reader.readAsDataURL(file);
@@ -214,10 +235,29 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                                             <span className="trip-item__name">{trip.name} — {trip.destination}</span>
                                         </div>
                                         <div className="trip-item__right">
-                                            <span className="trip-item__badge">Organizer</span>
-                                            <span className="trip-item__date">
+                                        <span className={`trip-item__badge ${trip.userRole === "Member" ? "trip-item__badge--member" : ""}`}>
+                                            {trip.userRole || "Organizer"}
+                                        </span>
+                                        <span className="trip-item__date">
                                                 {new Date(trip.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                                             </span>
+                                            <div className="trip-item__menu-wrap">
+                                                <button
+                                                    className="trip-item__menu-btn"
+                                                    onClick={() => setOpenMenuId(openMenuId === trip._id ? null : trip._id)}
+                                                >
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </button>
+                                                {openMenuId === trip._id && (
+                                                    <div className="trip-item__dropdown">
+                                                        <button onClick={() => { setSelectedTrip(trip); setOpenMenuId(null); }}>
+                                                            View Details
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 ))
@@ -244,7 +284,10 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                             <>
                                 <div className="photo-grid">
                                     {photos.map((url, i) => (
-                                        <img key={i} src={url} alt={`photo-${i}`} className="photo-item" />
+                                        <div key={i} className="photo-item-wrap">
+                                            <img src={url} alt={`photo-${i}`} className="photo-item" />
+                                            <button className="photo-delete-btn" onClick={() => setPhotoToDelete(i)}>✕</button>
+                                        </div>
                                     ))}
                                 </div>
                                 <label className="photo-add__btn photo-add__btn--inline">
@@ -256,6 +299,68 @@ function Profile({ onNavigate, user, currentPage, setUser }) {
                     </div>
                 )}
             </div>
+
+        {photoToDelete !== null && (
+            <div className="confirm-overlay" onClick={() => setPhotoToDelete(null)}>
+                <div className="confirm-modal" onClick={e => e.stopPropagation()}>
+                    <h3>Delete Photo</h3>
+                    <p>Are you sure you want to delete this photo? This cannot be undone.</p>
+                    <div className="confirm-modal__actions">
+                        <button className="confirm-modal__cancel" onClick={() => setPhotoToDelete(null)}>Cancel</button>
+                        <button className="confirm-modal__confirm" onClick={() => { handleDeletePhoto(photoToDelete); setPhotoToDelete(null); }}>Delete</button>
+                    </div>
+                </div>
+            </div>
+        )}
+
+        {selectedTrip && (
+            <div className="trip-modal-overlay" onClick={() => setSelectedTrip(null)}>
+                <div className="trip-modal" onClick={e => e.stopPropagation()}>
+                    <div className="trip-modal__header">
+                        <h2 className="trip-modal__title">{selectedTrip.name}</h2>
+                        <button className="trip-modal__close" onClick={() => setSelectedTrip(null)}>✕</button>
+                    </div>
+
+                    <div className="trip-modal__meta">
+                        <span>📍 {selectedTrip.destination}</span>
+                        <span>🗓 {selectedTrip.duration} {selectedTrip.duration === 1 ? "day" : "days"}</span>
+                        <span>🕒 {new Date(selectedTrip.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}</span>
+                    </div>
+
+                    {selectedTrip.members?.length > 0 && (
+                        <div className="trip-modal__section">
+                            <h3>Members</h3>
+                            <ul className="trip-modal__members">
+                                {selectedTrip.members.map((m, i) => (
+                                    <li key={i}>
+                                        <span className="trip-modal__member-name">{m.name}</span>
+                                        <span className="trip-modal__member-role">{m.role}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {selectedTrip.itinerary && Object.keys(selectedTrip.itinerary).length > 0 && (
+                        <div className="trip-modal__section">
+                            <h3>Itinerary</h3>
+                            {Object.entries(selectedTrip.itinerary).map(([day, places]) => (
+                                Array.isArray(places) && places.length > 0 && (
+                                    <div key={day} className="trip-modal__day">
+                                        <h4>Day {day}</h4>
+                                        <ul>
+                                            {places.map((p, i) => (
+                                                <li key={i}>{p.name} <span className="trip-modal__place-city">— {p.city}</span></li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        )}
         </div>
     );
 }
