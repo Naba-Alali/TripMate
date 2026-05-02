@@ -5,7 +5,7 @@ import { protect } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 // GET /api/places
-router.get("/", protect, async (req, res) => {
+router.get("/",  async (req, res) => {
     const { city, category } = req.query;
     const filter = {};
     if (city) filter.city = city;
