@@ -1,4 +1,4 @@
-const API = "http://localhost:3001/api";
+const API = "https://tripmate-ctqk.onrender.com/";
 
 export const registerUser = async ({ fullName, email, password }) => {
     try {
