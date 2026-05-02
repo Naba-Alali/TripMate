@@ -13,6 +13,10 @@
     --warning: #F39C12;
     --light-gray: #e8eaec;
 }
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
 
 * {
     margin: 0;

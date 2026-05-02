@@ -349,27 +349,40 @@
 @media (max-width: 1100px) {
     .admin-layout {
         flex-direction: column;
+        width: 100%;
     }
 
     .admin-sidebar {
         width: 100%;
+        max-width: 100%;
         position: static;
+        box-sizing: border-box;
     }
 
     .admin-sidebar__menu {
         flex-direction: row;
         flex-wrap: wrap;
+        gap: 8px;
     }
 
     .admin-sidebar__item {
-        width: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        text-align: center;
+        justify-content: center;
+        padding: 10px 8px;
+        font-size: 0.85rem;
     }
 
     .admin-stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-}
 
+    .admin-content {
+        width: 100%;
+        min-width: 0;
+    }
+}
 /* ── Mobile ── */
 @media (max-width: 700px) {
     .admin-layout {
