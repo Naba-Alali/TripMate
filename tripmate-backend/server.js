@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://tripmate-ctqk.onrender.com",
+  origin: "https://tripmate-1-mc1w.onrender.com",
   credentials: true
 }));
 app.use(express.json());
