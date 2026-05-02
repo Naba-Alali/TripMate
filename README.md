@@ -11,6 +11,8 @@
 - [Tech](#tech)
 - [Folder Structure](#folder-structure)
 - [Setup & Installation](#setup--installation)
+- [Environment Variables](#environment-variables)
+- [API Documentation](#api-documentation)
 - [Usage](#usage)
 - [Team Members](#team-members)
 
@@ -58,6 +60,14 @@ Users can sign up, log in, build trips with custom durations, add places to each
 - **Routing:** Custom `onNavigate` prop-based navigation
 - **Build Tool:** Vite
 
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB (via Mongoose)
+- **Authentication:** JWT (JSON Web Tokens)
+- **Password Hashing:** bcryptjs
+
 ---
 
 ## Folder Structure
@@ -77,9 +87,6 @@ TripMate/
 │   │   │   ├── PlacesView.jsx
 │   │   │   └── ReportsView.jsx
 │   │   ├── PlanTripComponents/
-│   │   │   ├── data/
-│   │   │   │   ├── members.js
-│   │   │   │   └── places.js
 │   │   │   ├── CategoryFilter.jsx
 │   │   │   ├── CityTabs.jsx
 │   │   │   ├── DayTabs.jsx
@@ -98,29 +105,33 @@ TripMate/
 │   │   ├── Profile.jsx
 │   │   └── SignUp.jsx
 │   ├── styles/
-│   │   ├── admin.css
-│   │   ├── auth.css
-│   │   ├── CategoryFilter.css
-│   │   ├── CityTabs.css
-│   │   ├── createTrip.css
-│   │   ├── ExplorePlaces.css
-│   │   ├── home.css
-│   │   ├── PlaceCard.css
-│   │   ├── PlaceDetailModal.css
-│   │   └── profile.css
 │   ├── utils/
 │   │   ├── auth.js
 │   │   └── trips.js
 │   ├── App.jsx
-│   ├── index.css
 │   └── main.jsx
-├── .gitignore
-├── eslint.config.js
-├── index.html
-├── package.json
-├── package-lock.json
-├── README.md
-└── vite.config.js
+├── tripmate-backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── middleware/
+│   │   └── auth.middleware.js
+│   ├── models/
+│   │   ├── City.js
+│   │   ├── Place.js
+│   │   ├── Review.js
+│   │   ├── Trip.js
+│   │   └── User.js
+│   ├── routes/
+│   │   ├── admin.routes.js
+│   │   ├── auth.routes.js
+│   │   ├── places.routes.js
+│   │   ├── reviews.routes.js
+│   │   └── trips.routes.js
+│   ├── Seeds.js
+│   ├── server.js
+│   ├── .env
+│   └── package.json
+└── README.md
 ```
 
 ---
@@ -133,8 +144,9 @@ Make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v18 or higher recommended)
 - [npm](https://www.npmjs.com/) 
+- A [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account
 
-### Steps
+### Front-end Steps
 
 1. **Clone the repository**
    ```bash
@@ -157,6 +169,317 @@ Make sure you have the following installed:
    Visit `http://localhost:5173` (default Vite port)
 
 ---
+
+
+### Backend Setup
+
+1. **Navigate to the backend folder**
+   ```bash
+   cd tripmate-backend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create a `.env` file** in the `tripmate-backend` folder:
+   ```
+   PORT=3001
+   MONGO_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/tripmate?retryWrites=true&w=majority
+   JWT_SECRET=your_secret_key_here
+   ```
+
+4. **Seed the database** with initial places and cities:
+   ```bash
+   node Seeds.js
+   ```
+
+5. **Start the backend server**
+   ```bash
+   npm run dev
+   ```
+
+   The server will run on `http://localhost:3001`
+
+---
+
+## Environment Variables
+
+Create a `.env` file in the `tripmate-backend` folder with the following variables:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `PORT` | Port for the backend server | `3001` |
+| `MONGO_URI` | MongoDB connection string from Atlas | `mongodb+srv://...` |
+| `JWT_SECRET` | Secret key for signing JWT tokens | `tripmate_secret_key` |
+
+> ⚠️ Never share your `.env` file or commit it to GitHub. It is already included in `.gitignore`.
+ 
+---
+
+
+## API Documentation
+
+Base URL: `http://localhost:3001/api`
+ 
+---
+
+### Auth Routes
+
+#### Register
+```
+POST /api/auth/register
+```
+**Request Body:**
+```json
+{
+  "fullName": "Rayhanah",
+  "email": "ray@example.com",
+  "password": "12345678"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "user": { "name": "Rayhanah", "email": "ray@example.com", "role": "Member", "joinedAt": "2026-01-01" },
+  "token": "eyJhbGci..."
+}
+```
+ 
+---
+
+#### Login
+```
+POST /api/auth/login
+```
+**Request Body:**
+```json
+{
+  "email": "ray@example.com",
+  "password": "12345678"
+}
+```
+**Response:**
+```json
+{
+  "success": true,
+  "user": { "name": "Rayhanah", "email": "ray@example.com", "role": "Member" },
+  "token": "eyJhbGci..."
+}
+```
+ 
+---
+
+#### Check Email
+```
+GET /api/auth/check-email?email=ray@example.com
+```
+**Response:**
+```json
+{ "exists": true, "name": "Rayhanah", "email": "ray@example.com" }
+```
+ 
+---
+
+#### Update Email
+```
+PUT /api/auth/update-email
+```
+**Headers:** `Authorization: Bearer <token>`
+
+**Request Body:**
+```json
+{ "email": "newemail@example.com" }
+```
+**Response:**
+```json
+{ "success": true, "message": "Email updated." }
+```
+ 
+---
+
+### Places Routes
+
+#### Get All Places
+```
+GET /api/places
+GET /api/places?city=Riyadh&category=food
+```
+**Response:**
+```json
+[
+  { "_id": "...", "name": "Jabal Al-Qara", "city": "AlHassa", "category": "nature", "rating": 4.8, "image": "Jabal-Alqara.jpg" }
+]
+```
+ 
+---
+
+### Trips Routes
+
+> All trips routes require `Authorization: Bearer <token>`
+
+#### Get User Trips
+```
+GET /api/trips
+```
+**Response:**
+```json
+[
+  { "_id": "...", "name": "My Trip", "destination": "Riyadh", "duration": 3, "itinerary": {}, "members": [] }
+]
+```
+ 
+---
+
+#### Create Trip
+```
+POST /api/trips
+```
+**Request Body:**
+```json
+{
+  "name": "My Riyadh Trip",
+  "destination": "Riyadh",
+  "duration": 3,
+  "itinerary": {},
+  "members": []
+}
+```
+ 
+---
+
+#### Update Trip
+```
+PUT /api/trips/:id
+```
+**Request Body:** same as Create Trip
+ 
+---
+
+#### Delete Trip
+```
+DELETE /api/trips/:id
+```
+**Response:**
+```json
+{ "success": true, "message": "Trip deleted." }
+```
+ 
+---
+
+### Reviews Routes
+
+#### Get Reviews for a Place
+```
+GET /api/reviews/:placeId
+```
+**Response:**
+```json
+[
+  { "_id": "...", "userName": "Rayhanah", "rating": 5, "comment": "Amazing!", "createdAt": "..." }
+]
+```
+ 
+---
+
+#### Add Review
+```
+POST /api/reviews/:placeId
+```
+**Headers:** `Authorization: Bearer <token>`
+
+**Request Body:**
+```json
+{ "rating": 5, "comment": "Amazing place!" }
+```
+ 
+---
+
+### Admin Routes
+
+> All admin routes require `Authorization: Bearer <token>` with Admin role, except `cities-list`
+
+#### Get Cities List (Public)
+```
+GET /api/admin/cities-list
+```
+**Response:**
+```json
+[{ "_id": "...", "name": "Riyadh" }, { "_id": "...", "name": "Jeddah" }]
+```
+ 
+---
+
+#### Get All Users
+```
+GET /api/admin/users
+```
+ 
+---
+
+#### Update User
+```
+PUT /api/admin/users/:id
+```
+**Request Body:**
+```json
+{ "fullName": "New Name", "email": "newemail@example.com" }
+```
+ 
+---
+
+#### Delete User
+```
+DELETE /api/admin/users/:id
+```
+ 
+---
+
+#### Add City
+```
+POST /api/admin/cities
+```
+**Request Body:**
+```json
+{ "cityName": "Dammam" }
+```
+ 
+---
+
+#### Add Place
+```
+POST /api/admin/places
+```
+**Request Body:**
+```json
+{
+  "name": "Kingdom Tower",
+  "city": "Riyadh",
+  "category": "landmark",
+  "description": "Famous skyscraper in Riyadh",
+  "image": "https://example.com/image.jpg",
+  "rating": 4.5
+}
+```
+ 
+---
+
+#### Update Place
+```
+PUT /api/admin/places/:id
+```
+ 
+---
+
+#### Delete Place
+```
+DELETE /api/admin/places/:id
+```
+ 
+---
+
 
 ## Usage
 
@@ -219,7 +542,6 @@ Inside the Admin Panel, the administrator can navigate between different section
 
 4. In the **Users** section, the administrator can edit user information or delete user accounts.
 
-> Note: (Note: Reviews are stored in-memory and will reset on page refresh.)
 ## Team Members
 
 | Name | Role |
@@ -228,7 +550,7 @@ Inside the Admin Panel, the administrator can navigate between different section
 | **Naba Alali** | Explore Places Page |
 | **Bana Jaber** | Home Page, Login & Sign Up, User Profile |
 | **Forqan Alsalman** | Admin Page |
-
+* Note: All team members contributed to the overall design, development, and testing of the application, backend, with specific focus areas as listed above.
 ---
 
 ## License
