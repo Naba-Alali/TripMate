@@ -1,9 +1,19 @@
 .category-filter {
     display: flex;
-    flex-wrap: nowrap;    /* Prevents buttons from jumping to a second line */
+    flex-wrap: nowrap;
     gap: 10px;
-    margin-bottom: 10px;     /* CRITICAL: Set to 0 so it aligns with the search bar */
+    margin-bottom: 10px;
     flex-shrink: 1;
+   
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    padding-bottom: 4px;
+}
+
+
+.category-filter::-webkit-scrollbar {
+    display: none;
 }
 
 .category-filter__btn {
@@ -19,7 +29,8 @@
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
-    margin-bottom: 20px;
+    flex-shrink: 0; 
+    margin-bottom: 0; 
 }
 
 .category-filter__btn:hover {
@@ -34,14 +45,13 @@
 }
 
 @media (max-width: 600px) {
-  .category-filter {
-    flex-wrap: wrap;         
-    gap: 8px;
-  }
+    .category-filter {
+        gap: 8px;
+        
+    }
 
-  .category-filter__btn {
-    padding: 6px 14px;
-    font-size: 13px;
-    margin-bottom: 0;
-  }
+    .category-filter__btn {
+        padding: 6px 14px;
+        font-size: 13px;
+    }
 }

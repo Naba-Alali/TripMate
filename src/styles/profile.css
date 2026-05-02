@@ -5,10 +5,13 @@
 }
 
 /* ── Header ── */
+/* ── Header ── */
 .profile-header {
     background-color: #F0F0F0;
-    padding: 48px 120px;
+    padding: 48px clamp(16px, 8vw, 120px);
 }
+
+
 
 .profile-header__name {
     font-size: 2.2rem;
@@ -47,7 +50,7 @@
 
 /* ── Body ── */
 .profile-body {
-    padding: 36px 120px;
+    padding: 36px clamp(16px, 8vw, 120px);
 }
 
 /* ── Stats ── */
@@ -673,5 +676,16 @@
   .trip-modal__members li {
     align-items: flex-start;
     gap: 8px;
+  }
+}
+@media (max-width: 700px) {
+  /* العناصر الموجودة زين، بس أضف هذا */
+  .trip-item__right {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .edit-profile-btn {
+    width: 100%;
   }
 }
