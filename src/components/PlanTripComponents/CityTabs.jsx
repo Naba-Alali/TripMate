@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../../styles/CityTabs.css';
 
-const API = "https://tripmate-ctqk.onrender.com/";
+const API = "https://tripmate-ctqk.onrender.com";
 
 function CityTabs({ selected, onSelect }) {
     const [cities, setCities] = useState([{ id: "All", label: "All" }]);

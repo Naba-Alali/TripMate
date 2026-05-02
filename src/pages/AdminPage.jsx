@@ -8,7 +8,7 @@ import PlacesView from "../components/AdminComponents/PlacesView";
 import ReportsView from "../components/AdminComponents/ReportsView";
 import "../styles/admin.css";
  
-const API = "https://tripmate-ctqk.onrender.com/";
+const API = "https://tripmate-ctqk.onrender.com";
 const getToken = () => localStorage.getItem("tripmate_token");
  
 function AdminPage({ onNavigate, user, currentPage, setUser, isGuest }) {

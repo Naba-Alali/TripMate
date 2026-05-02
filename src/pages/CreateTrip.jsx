@@ -10,7 +10,7 @@ import { saveUserTrip, deleteUserTrip } from "../utils/trips";
 import "../styles/createTrip.css";
 import { checkEmailExists } from "../utils/auth";
 
-const API = "https://tripmate-ctqk.onrender.com/";
+const API = "https://tripmate-ctqk.onrender.com";
 const getToken = () => localStorage.getItem("tripmate_token");
 
 const saveTripToDB = async (trip) => {
