@@ -393,6 +393,9 @@
     .admin-sidebar {
         padding: 18px 14px;
         border-radius: 14px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .admin-sidebar__menu {
@@ -406,29 +409,48 @@
     }
 
     .admin-stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .admin-table-wrapper {
+        width: 100%;
+        overflow: hidden;
     }
 
     .admin-table {
-        min-width: 500px; 
-        min-width: 480px;
+        width: 100%;
+        min-width: unset; /* يحذف أي min-width */
+        table-layout: fixed; /* يخلي الأعمدة تتقسم بالتساوي */
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 6px;
+        font-size: 0.78rem;
+        word-break: break-word; /* الكلمات تنكسر لو طويلة */
+        white-space: normal;
     }
 
     .admin-actions {
         flex-direction: column;
+        gap: 4px;
     }
 
     .admin-action-btn {
+        padding: 5px 8px;
+        font-size: 0.75rem;
         width: 100%;
+        text-align: center;
     }
 
     .admin-section-title {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 
     .admin-section__header--row {
         flex-direction: column;
         align-items: flex-start;
+        gap: 12px;
     }
 
     .admin-primary-btn {
@@ -447,11 +469,5 @@
     .admin-form-actions .admin-primary-btn,
     .admin-form-actions .admin-action-btn {
         width: 100%;
-    }
-
-    .admin-table th,
-    .admin-table td {
-        padding: 14px 12px;
-        font-size: 0.85rem;
     }
 }
